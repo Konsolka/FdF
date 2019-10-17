@@ -1,0 +1,1 @@
+1. https://fr.wikipedia.org/wiki/Algorithme_de_tracé_de_segment_de_Bresenham
