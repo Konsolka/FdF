@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/18 11:28:03 by mburl             #+#    #+#             */
-/*   Updated: 2019/10/18 11:30:00 by mburl            ###   ########.fr       */
+/*   Created: 2019/10/18 12:07:18 by mburl             #+#    #+#             */
+/*   Updated: 2019/10/18 12:09:51 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define FDF_H
 
 # include <stdio.h>
+# include <sys/types.h>
+# include <sys/uio.h>
 # include <stdlib.h>
 # include <fcntl.h>
 # include <stdio.h>

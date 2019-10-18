@@ -6,38 +6,62 @@
 #    By: mburl <mburl@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/18 10:24:14 by mburl             #+#    #+#              #
-#    Updated: 2019/10/18 11:12:33 by mburl            ###   ########.fr        #
+#    Updated: 2019/10/18 12:26:04 by mburl            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = fdf
+NAME	= fdf
 
-SRC := main.c
-OBJ := $(SRC:.c=.o)
+# src / obj files
+SRC		= main.c
 
-INCLUDE = /usr/local/include
-LIB = /usr/local/lib -lmlx
-LIBFT = libft/
+OBJ		= $(addprefix $(OBJDIR),$(SRC:.c=.o))
 
-FRAMEWORKS := -framework OpenGL -framework AppKit
+# compiler
+CC		= gcc
+CFLAGS	= -Wall -Wextra -Werror -g
 
-CC := gcc
-CFLAGS := -Wall -Wextra -Werror
+# mlx library
+MLX		= ./miniLibX/
+MLX_LIB	= $(addprefix $(MLX),mlx.a)
+MLX_INC	= -I ./miniLibX
+MLX_LNK	= -L ./miniLibX -l mlx -framework OpenGL -framework AppKit
 
-.PHONY: all clean fclean re
+# ft library
+FT		= ./libft/
+FT_LIB	= $(addprefix $(FT),libft.a)
+FT_INC	= -I ./libft
+FT_LNK	= -L ./libft -l ft
 
-all: $(NAME)
+# directories
+SRCDIR	= ./src/
+INCDIR	= ./includes/
+OBJDIR	= ./obj/
 
-$(NAME): lib $(OBJ)
-	$(CC) $(CFLAGS) -o $(NAME) $(SRC) -I $(INCLUDE) -L $(LIB) -L. libft/libft.a $(FRAMEWORKS)
+all: obj $(FT_LIB) $(MLX_LIB) $(NAME)
 
-lib:
-	make -C $(LIBFT)
+obj:
+	mkdir -p $(OBJDIR)
+
+$(OBJDIR)%.o:$(SRCDIR)%.c
+	$(CC) $(CFLAGS) $(MLX_INC) $(FT_INC) -I $(INCDIR) -o $@ -c $<
+
+$(FT_LIB):
+	make -C $(FT)
+
+$(MLX_LIB):
+	make -C $(MLX)
+
+$(NAME): $(OBJ)
+	$(CC) -g $(OBJ) $(MLX_LNK) $(FT_LNK) -lm -o $(NAME)
 
 clean:
-	rm -rf $(OBJ)
+	rm -rf $(OBJDIR)
+	make -C $(FT) clean
+	make -C $(MLX) clean
 
 fclean: clean
 	rm -rf $(NAME)
+	make -C $(FT) fclean
 
 re: fclean all
