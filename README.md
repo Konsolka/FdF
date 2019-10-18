@@ -1,2 +1,2 @@
-1. https://fr.wikipedia.org/wiki/Algorithme_de_tracé_de_segment_de_Bresenham
+1. https://ru.wikipedia.org/wiki/Алгоритм_Брезенхэма
 2. man /usr/share/man/man3/mlx.1
