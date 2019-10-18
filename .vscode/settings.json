@@ -2,7 +2,8 @@
 	"files.associations": {
 		"libft.h": "c",
 		"fdf.h": "c",
-		"grah.h": "c"
+		"grah.h": "c",
+		"uio.h": "c"
 	},
 	"C_Cpp.dimInactiveRegions": false
 }
