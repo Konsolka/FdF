@@ -26,9 +26,13 @@
 
 typedef struct		s_fdf
 {
-	int			*coords;
+	int			x;
 	int			y;
-	int			size;
+	int			z;
+	struct s_fdf	*up;
+	struct s_fdf	*left;
+	struct s_fdf	*right;
+	struct s_fdf	*down;
 }					t_fdf;
 
 

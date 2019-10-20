@@ -12,12 +12,17 @@
 
 #include "fdf.h"
 
-void	ft_lstprint(t_list *lst)
+t_fdf	ft_create_node(int x, int y, int z)
 {
-	while (lst != NULL)
-	{
-		ft_putstr("lst->content = ");
-		ft_putendl((int *)lst->content);
-		lst = lst->next;
-	}
+	t_fdf	*node;
+
+	node = (t_fdf *)malloc(sizeof(t_fdf));
+	node->x = x;
+	node->y = y;
+	node->z = z;
+	node->up = NULL;
+	node->left = NULL;
+	node->right = NULL;
+	node->down = NULL;
+	return (node);
 }

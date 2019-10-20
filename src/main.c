@@ -18,10 +18,8 @@ t_list		*read_file(int fd)
 	char	**coord;
 	t_list	*lst;
 	t_fdf	*node;
-	int		size;
 	int		y;
 	int 	i;
-	int		*values;
 
 	lst = NULL;
 	line = NULL;
@@ -29,25 +27,16 @@ t_list		*read_file(int fd)
 	while (get_next_line(fd, &line))
 	{
 		coord = ft_strsplit(line, ' ');
-		size = 0;
+		i = 0;
+		node = (t_fdf *)malloc(sizeof(t_fdf));
 		while (1)
 		{
-			if (coord[size] == NULL)
-				break;
-			size++;
-		}
-		i = 0;
-		values = (int *)malloc(sizeof(int) * size);
-		while (i < size)
-		{
-			values[i] = ft_atoi(coord[i]);
+			if (coord[i])
+				break ;
+			ft_create_node(i, y, ft_atoi(coord[i]));
 			i++;
 		}
-		node = (t_fdf *)malloc(sizeof(t_fdf));
-		node->coords = values;
 		node->y = y;
-		node->size = size;
-		ft_lstadd(&lst, ft_lstnew(node, sizeof(*node)));
 		ft_memdel((void **)node);
 		y++;
 	}
