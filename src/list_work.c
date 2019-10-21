@@ -12,7 +12,7 @@
 
 #include "fdf.h"
 
-t_fdf	ft_create_node(int x, int y, int z)
+t_fdf	*ft_create_node(int x, int y, int z)
 {
 	t_fdf	*node;
 
@@ -21,11 +21,40 @@ t_fdf	ft_create_node(int x, int y, int z)
 	node->y = y;
 	node->z = z;
 	node->next = NULL;
+	node->prev = NULL;
+	node->up = NULL;
+	node->down = NULL;
 	return (node);
 }
 
 void	ft_fdfadd(t_fdf **alst, t_fdf *new)
 {
-	new->next = *alst;
-	*alst = new;
+	t_fdf *curr;
+
+	curr = *alst;
+	if (curr)
+		curr = new;
+	else
+	{
+		if (curr->up->next)
+		{
+			new->up = curr->up->next;
+			curr->up->next->down = new;
+		}
+		new->prev = curr;
+		curr->next = new;
+		curr = curr->next;
+	}
+	*alst = curr;
+}
+
+void	ft_fdfdown(t_fdf **alst, t_fdf *new)
+{
+	t_fdf *curr;
+
+	curr = *alst;
+	curr->down = new;
+	curr->down->up = curr;
+	curr = curr->next;
+	*alst = curr;
 }

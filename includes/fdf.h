@@ -34,6 +34,10 @@ typedef struct		s_fdf
 	int			y;
 	int			z;
 	struct s_fdf	*next;
+	struct s_fdf	*prev;
+	struct s_fdf	*up;
+	struct s_fdf	*down;
+
 }					t_fdf;
 
 typedef struct	s_map
@@ -44,6 +48,8 @@ typedef struct	s_map
 	
 }				t_map;
 
+t_fdf	*ft_create_node(int x, int y, int z);
 void	ft_fdfadd(t_fdf **alst, t_fdf *new);
+void	ft_fdfdown(t_fdf **alst, t_fdf *new);
 
 #endif
