@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 15:18:18 by mburl             #+#    #+#             */
-/*   Updated: 2019/10/18 15:35:19 by mburl            ###   ########.fr       */
+/*   Updated: 2019/10/21 18:43:48 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,12 @@ t_fdf	ft_create_node(int x, int y, int z)
 	node->x = x;
 	node->y = y;
 	node->z = z;
-	node->up = NULL;
-	node->left = NULL;
-	node->right = NULL;
-	node->down = NULL;
+	node->next = NULL;
 	return (node);
+}
+
+void	ft_fdfadd(t_fdf **alst, t_fdf *new)
+{
+	new->next = *alst;
+	*alst = new;
 }
