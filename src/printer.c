@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 17:13:49 by mburl             #+#    #+#             */
-/*   Updated: 2019/10/22 18:22:10 by mburl            ###   ########.fr       */
+/*   Updated: 2019/10/22 18:30:57 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	print_map(t_fdf *lst)
 	mlx_win = mlx_new_window(mlx_ptr, HIEGHT, WIDTH, "FdF");
 	while (lst->next || lst->down)
 	{
-		mlx_pixel_put(mlx_ptr, mlx_win, lst->coords[0][0], lst->coords[1][0], 0xFFFFFF);
+		mlx_pixel_put(mlx_ptr, mlx_win, lst->coords[0][0] + WIDTH / 2, lst->coords[1][0] + HIEGHT / 2, 0xFFFFFF);
 		if (!lst->next)
 		{
 			if (lst->down)

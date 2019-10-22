@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 11:07:21 by mburl             #+#    #+#             */
-/*   Updated: 2019/10/22 18:21:48 by mburl            ###   ########.fr       */
+/*   Updated: 2019/10/22 18:43:20 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ t_fdf		*read_file(int fd, t_map **map)
 
 // int			print_map(t_fdf *lst)
 // {
-	
+		
 // 	return (0);
 // }
 
@@ -77,14 +77,13 @@ int			main(int ac, char **av)
 	}
 	temp[0] = 3;
 	temp[1] = 3;
-	T_matrix = matrix_mul(f_matrix_a(45), f_matrix_b(45), temp);
+	T_matrix = matrix_mul(f_matrix_a(35.264), f_matrix_b(45), temp);
 	temp[1] = 1;
 	while (lst->prev || lst->up)
 	{
 		lst->coords = matrix_mul(T_matrix, lst->coords, temp);
-		lst->coords[0][0] *= (1 / map->max_x) * WIDTH;
-		lst->coords[1][0] *= (1 / map->max_y) * HIEGHT;
-		printf("x = %f, y = %f\n", lst->coords[0][0], lst->coords[1][0]);
+		lst->coords[0][0] *= (1 / map->max_x) * WIDTH / 2;
+		lst->coords[1][0] *= (1 / map->max_y) * HIEGHT / 2;
 		if (!lst->prev)
 		{
 			if (lst->up)
