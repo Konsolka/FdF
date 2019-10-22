@@ -1,40 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   matix.c                                            :+:      :+:    :+:   */
+/*   printer.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/22 13:19:36 by mburl             #+#    #+#             */
-/*   Updated: 2019/10/22 13:32:20 by mburl            ###   ########.fr       */
+/*   Created: 2019/10/22 17:13:49 by mburl             #+#    #+#             */
+/*   Updated: 2019/10/22 18:22:10 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include <math.h>
 
-double	**matrix_a(t_fdf *lst, double a)
+void	print_map(t_fdf *lst)
 {
-	double	matrix_a[3][3];
-	int		i;
-	int		j;
+	void	*mlx_ptr;
+	void	*mlx_win;
 
-	i = 0;
-	while (i < 3)
+	mlx_ptr = mlx_init();
+	mlx_win = mlx_new_window(mlx_ptr, HIEGHT, WIDTH, "FdF");
+	while (lst->next || lst->down)
 	{
-		j = 0;
-		while (j < 3)
+		mlx_pixel_put(mlx_ptr, mlx_win, lst->coords[0][0], lst->coords[1][0], 0xFFFFFF);
+		if (!lst->next)
 		{
-			matrix_a[i][j] = 0;
-			j++;
+			if (lst->down)
+			{
+				while (lst->prev)
+					lst = lst->prev;
+				lst = lst->down;
+			}
+			else
+				break ;
 		}
-		i++;
+		else
+			lst = lst->next;
 	}
-	matrix_a[0][0] = 1;
-	matrix_a[1][1] = cos(a);
-	matrix_a[1][2] = sin(a);
-	matrix_a[2][1] = -sin(a);
-	matrix_a[2][2] = cos(a);
-	retrun (matrix_a);
+	mlx_loop(mlx_ptr);
 }
-

@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 12:07:18 by mburl             #+#    #+#             */
-/*   Updated: 2019/10/21 19:22:36 by mburl            ###   ########.fr       */
+/*   Updated: 2019/10/22 18:12:08 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,7 @@
 
 typedef struct		s_fdf
 {
-	int			x;
-	int			y;
-	int			z;
+	double			**coords;
 	struct s_fdf	*next;
 	struct s_fdf	*prev;
 	struct s_fdf	*up;
@@ -42,14 +40,16 @@ typedef struct		s_fdf
 
 typedef struct	s_map
 {
-	float		a;
-	float		fov;
-	float		q;
-	
+	float		max_x;
+	float		max_y;
 }				t_map;
 
 t_fdf	*ft_create_node(int x, int y, int z);
 void	ft_fdfadd(t_fdf **alst, t_fdf *new);
 void	ft_fdfdown(t_fdf **alst, t_fdf *new);
+double	**f_matrix_a(double a);
+double	**f_matrix_b(double b);
+void	print_map(t_fdf *lst);
+double	**matrix_mul(double **a, double **b, int *b_data);
 
 #endif

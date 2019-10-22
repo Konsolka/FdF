@@ -6,14 +6,14 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 11:07:21 by mburl             #+#    #+#             */
-/*   Updated: 2019/10/22 13:19:31 by mburl            ###   ########.fr       */
+/*   Updated: 2019/10/22 18:21:48 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include <math.h>
 
-t_fdf		*read_file(int fd)
+t_fdf		*read_file(int fd, t_map **map)
 {
 	char	*line;
 	char	**coord;
@@ -41,14 +41,16 @@ t_fdf		*read_file(int fd)
 		}
 		y++;
 	}
+	(*map)->max_x = i;
+	(*map)->max_y = y;
 	return (lst);
 }
 
-int			print_map(t_fdf *lst)
-{
+// int			print_map(t_fdf *lst)
+// {
 	
-	return (0);
-}
+// 	return (0);
+// }
 
 /*	Projection:
 **
@@ -61,12 +63,42 @@ int			print_map(t_fdf *lst)
 int			main(int ac, char **av)
 {
 	t_fdf	*lst;
+	double	**T_matrix;
+	int		temp[2];
+	t_map	*map;
 	
 	if (ac != 2)
 		ft_putstr_err("Usage : ./fdf <filename> [ case_size z_size ]\n");
-	if ((lst = read_file(open(av[1], O_RDONLY))) == NULL)
+	map = (t_map *)malloc(sizeof(t_map));
+	if ((lst = read_file(open(av[1], O_RDONLY), &map)) == NULL)
+	{
+		free(map);
 		ft_putstr_err("error\n");
-
-	//print_map(lst);
+	}
+	temp[0] = 3;
+	temp[1] = 3;
+	T_matrix = matrix_mul(f_matrix_a(45), f_matrix_b(45), temp);
+	temp[1] = 1;
+	while (lst->prev || lst->up)
+	{
+		lst->coords = matrix_mul(T_matrix, lst->coords, temp);
+		lst->coords[0][0] *= (1 / map->max_x) * WIDTH;
+		lst->coords[1][0] *= (1 / map->max_y) * HIEGHT;
+		printf("x = %f, y = %f\n", lst->coords[0][0], lst->coords[1][0]);
+		if (!lst->prev)
+		{
+			if (lst->up)
+			{
+				while (lst->next)
+					lst = lst->next;
+				lst = lst->up;
+			}
+			else
+				break ;
+		}
+		else
+			lst = lst->prev;
+	}
+	print_map(lst);
 	return (0);
 }
