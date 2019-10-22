@@ -3,7 +3,8 @@
 		"libft.h": "c",
 		"fdf.h": "c",
 		"grah.h": "c",
-		"uio.h": "c"
+		"uio.h": "c",
+		"math.h": "c"
 	},
 	"C_Cpp.dimInactiveRegions": false
 }
