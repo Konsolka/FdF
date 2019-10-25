@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 15:18:18 by mburl             #+#    #+#             */
-/*   Updated: 2019/10/22 17:11:10 by mburl            ###   ########.fr       */
+/*   Updated: 2019/10/25 14:07:57 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ t_fdf	*ft_create_node(int x, int y, int z)
 	node->coords[1][0] = y;
 	node->coords[2] = (double *)malloc(sizeof(double));
 	node->coords[2][0] = z;
+	node->coords[3] = (double *)malloc(sizeof(double));
+	node->coords[3][0] = 1;
 	node->next = NULL;
 	node->prev = NULL;
 	node->up = NULL;

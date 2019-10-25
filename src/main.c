@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 11:07:21 by mburl             #+#    #+#             */
-/*   Updated: 2019/10/22 18:43:20 by mburl            ###   ########.fr       */
+/*   Updated: 2019/10/25 14:29:40 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,15 +75,16 @@ int			main(int ac, char **av)
 		free(map);
 		ft_putstr_err("error\n");
 	}
-	temp[0] = 3;
-	temp[1] = 3;
+	temp[0] = 4;
+	temp[1] = 4;
 	T_matrix = matrix_mul(f_matrix_a(35.264), f_matrix_b(45), temp);
 	temp[1] = 1;
 	while (lst->prev || lst->up)
 	{
+		temp[1] = 4;
+		lst->coords = matrix_mul(T_matrix, create4x4_matrix(), temp);
+		temp[1] = 1;
 		lst->coords = matrix_mul(T_matrix, lst->coords, temp);
-		lst->coords[0][0] *= (1 / map->max_x) * WIDTH / 2;
-		lst->coords[1][0] *= (1 / map->max_y) * HIEGHT / 2;
 		if (!lst->prev)
 		{
 			if (lst->up)

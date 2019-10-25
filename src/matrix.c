@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 13:19:36 by mburl             #+#    #+#             */
-/*   Updated: 2019/10/22 17:08:06 by mburl            ###   ########.fr       */
+/*   Updated: 2019/10/25 14:21:19 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,12 @@ double	**f_matrix_a(double a)
 	int		j;
 
 	i = 0;
-	matrix_a = (double **)malloc(sizeof(double *) * 3);
-	while (i < 3)
+	matrix_a = (double **)malloc(sizeof(double *) * 4);
+	while (i < 4)
 	{
 		j = 0;
-		matrix_a[i] = (double *)malloc(sizeof(double) * 3);
-		while (j < 3)
+		matrix_a[i] = (double *)malloc(sizeof(double) * 4);
+		while (j < 4)
 		{
 			matrix_a[i][j] = 0;
 			j++;
@@ -69,6 +69,9 @@ double	**f_matrix_a(double a)
 	matrix_a[1][2] = sin(a);
 	matrix_a[2][1] = -sin(a);
 	matrix_a[2][2] = cos(a);
+	i = 0;
+	while (i < 4)
+		matrix_a[i++][3] = 1;
 	return (matrix_a);
 }
 
@@ -79,12 +82,12 @@ double	**f_matrix_b(double b)
 	int		j;
 
 	i = 0;
-	matrix_b = (double **)malloc(sizeof(double *) * 3);
-	while (i < 3)
+	matrix_b = (double **)malloc(sizeof(double *) * 4);
+	while (i < 4)
 	{
 		j = 0;
-		matrix_b[i] = (double *)malloc(sizeof(double) * 3);
-		while (j < 3)
+		matrix_b[i] = (double *)malloc(sizeof(double) * 4);
+		while (j < 4)
 		{
 			matrix_b[i][j] = 0;
 			j++;
@@ -96,5 +99,8 @@ double	**f_matrix_b(double b)
 	matrix_b[1][1] = 1;
 	matrix_b[2][0] = sin(b);
 	matrix_b[2][2] = cos(b);
+	i = 0;
+	while (i < 4)
+		matrix_b[i++][3] = 1;
 	return (matrix_b);
 }
