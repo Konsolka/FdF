@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 17:13:49 by mburl             #+#    #+#             */
-/*   Updated: 2019/11/11 19:00:40 by mburl            ###   ########.fr       */
+/*   Updated: 2019/11/11 19:01:18 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int		move_obj(int button, int x, int y, void *param)
 	}
 	if (button == 5)
 	{
-		scaling(lst, 0.9);
+		scaling(lst, 0.8);
 		mlx_clear_window(data->mlx->ptr, data->mlx->win);
 		drawing_map(lst, data->mlx);
 	}
