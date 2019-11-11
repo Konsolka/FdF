@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 17:13:49 by mburl             #+#    #+#             */
-/*   Updated: 2019/11/11 18:34:38 by mburl            ###   ########.fr       */
+/*   Updated: 2019/11/11 19:00:40 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,14 @@ int		move_obj(int button, int x, int y, void *param)
 	//  window must be cleaned
 	if (button == 4)
 	{
-		data->scale += 1;
-		scaling(lst, data->scale);
+		// scaling(lst, 1 / data->scale);
+		scaling(lst, 1.2);
+		mlx_clear_window(data->mlx->ptr, data->mlx->win);
+		drawing_map(lst, data->mlx);
+	}
+	if (button == 5)
+	{
+		scaling(lst, 0.9);
 		mlx_clear_window(data->mlx->ptr, data->mlx->win);
 		drawing_map(lst, data->mlx);
 	}
@@ -52,7 +58,7 @@ void	make_window(t_fdf *lst)
 
 	data->lst = lst;
 	data->mlx = mlx_list;
-	data->scale = 5;
+	data->scale = 5.0;
 	scaling(lst, data->scale);
 	drawing_map(lst, mlx_list);
 	////
