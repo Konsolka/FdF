@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 12:07:18 by mburl             #+#    #+#             */
-/*   Updated: 2019/10/25 14:31:54 by mburl            ###   ########.fr       */
+/*   Updated: 2019/11/11 16:31:46 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@
 # include "get_next_line.h"
 # define HIEGHT 720
 # define WIDTH 480
-# define FOV 90.0
+# define FOV 90
 # define F_NEAR 0.1
-# define F_FAR 1000.0
+# define F_FAR 100.0
 
 typedef struct		s_fdf
 {
@@ -56,8 +56,11 @@ void	ft_fdfadd(t_fdf **alst, t_fdf *new);
 void	ft_fdfdown(t_fdf **alst, t_fdf *new);
 double	**f_matrix_a(double a);
 double	**f_matrix_b(double b);
-void	print_map(t_fdf *lst);
+void	make_window(t_fdf *lst);
 double	**matrix_mul(double **a, double **b, int *b_data);
 double		**create4x4_matrix(void);
+double		**translate_matrix(double x, double y, double z);
+void	ft_mlx_line(int x1, int y1, int x2, int y2, t_mlx *lst);
+void	drawing_map(t_fdf *lst, t_mlx *mlx_list);
 
 #endif

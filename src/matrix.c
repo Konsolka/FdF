@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 13:19:36 by mburl             #+#    #+#             */
-/*   Updated: 2019/10/25 14:21:19 by mburl            ###   ########.fr       */
+/*   Updated: 2019/11/11 16:27:58 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,7 @@ double	**f_matrix_a(double a)
 	matrix_a[1][2] = sin(a);
 	matrix_a[2][1] = -sin(a);
 	matrix_a[2][2] = cos(a);
-	i = 0;
-	while (i < 4)
-		matrix_a[i++][3] = 1;
+	matrix_a[3][3] = 1;
 	return (matrix_a);
 }
 
@@ -99,8 +97,63 @@ double	**f_matrix_b(double b)
 	matrix_b[1][1] = 1;
 	matrix_b[2][0] = sin(b);
 	matrix_b[2][2] = cos(b);
-	i = 0;
-	while (i < 4)
-		matrix_b[i++][3] = 1;
+	matrix_b[3][3] = 1;
 	return (matrix_b);
+}
+
+double		**translate_matrix(double x, double y, double z)
+{
+	double	**matrix_b;
+	int		i;
+	int		j;
+
+	i = 0;
+	matrix_b = (double **)malloc(sizeof(double *) * 4);
+	while (i < 4)
+	{
+		j = 0;
+		matrix_b[i] = (double *)malloc(sizeof(double) * 4);
+		while (j < 4)
+		{
+			matrix_b[i][j] = 0;
+			j++;
+		}
+		i++;
+	}
+	matrix_b[0][0] = 1;
+	matrix_b[1][1] = 1;
+	matrix_b[2][2] = 1;
+	matrix_b[3][3] = 1;
+	matrix_b[0][3] = x;
+	matrix_b[1][3] = y;
+	matrix_b[2][3] = z;
+
+	return (matrix_b);
+}
+
+double		**scaling_matrix(double	pers)
+{
+	double	**matrix_sc;
+	int		i;
+	int		j;
+
+	i = 0;
+	matrix_sc = (double **)malloc(sizeof(double *) * 4);
+	while (i < 4)
+	{
+		j = 0;
+		matrix_sc[i] = (double *)malloc(sizeof(double) * 4);
+		while (j < 4)
+		{
+			matrix_sc[i][j] = 0;
+			j++;
+		}
+		i++;
+	}
+	matrix_sc[0][0] = (pers * WIDTH) / 100;
+	matrix_sc[1][1] = (pers * HIEGHT) / 100;
+	matrix_sc[2][2] = 1;
+	matrix_sc[3][3] = 1;
+
+	return (matrix_sc);
 }

@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 11:07:21 by mburl             #+#    #+#             */
-/*   Updated: 2019/10/25 14:29:40 by mburl            ###   ########.fr       */
+/*   Updated: 2019/11/11 16:31:53 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ t_fdf		*read_file(int fd, t_map **map)
 		while (coord[i] != '\0')
 		{
 			if (i == 0 && lst)
-				ft_fdfdown(&lst, ft_create_node(i, y, ft_atoi(coord[i])));
+				ft_fdfdown(&lst, ft_create_node(i, y, -ft_atoi(coord[i])));
 			else
-				ft_fdfadd(&lst, ft_create_node(i, y, ft_atoi(coord[i])));
+				ft_fdfadd(&lst, ft_create_node(i, y, -ft_atoi(coord[i])));
 			i++;
 		}
 		y++;
@@ -77,14 +77,13 @@ int			main(int ac, char **av)
 	}
 	temp[0] = 4;
 	temp[1] = 4;
-	T_matrix = matrix_mul(f_matrix_a(35.264), f_matrix_b(45), temp);
+	T_matrix = matrix_mul(f_matrix_a(45), f_matrix_b(0), temp);
 	temp[1] = 1;
-	while (lst->prev || lst->up)
+	while (lst)
 	{
-		temp[1] = 4;
-		lst->coords = matrix_mul(T_matrix, create4x4_matrix(), temp);
-		temp[1] = 1;
+		lst->coords = matrix_mul(translate_matrix(1, 0, 1), lst->coords, temp);
 		lst->coords = matrix_mul(T_matrix, lst->coords, temp);
+		lst->coords = matrix_mul(create4x4_matrix(), lst->coords, temp);
 		if (!lst->prev)
 		{
 			if (lst->up)
@@ -99,6 +98,6 @@ int			main(int ac, char **av)
 		else
 			lst = lst->prev;
 	}
-	print_map(lst);
+	make_window(lst);
 	return (0);
 }

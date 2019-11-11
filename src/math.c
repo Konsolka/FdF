@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 19:29:20 by mburl             #+#    #+#             */
-/*   Updated: 2019/10/25 14:30:15 by mburl            ###   ########.fr       */
+/*   Updated: 2019/11/11 14:01:50 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ double		**create4x4_matrix(void)
 		}
 		i++;
 	}
-	matrix[0][0] = 1 / tan(FOV * 0.5 / 180.0 * M_PI);
-	matrix[1][1] = (HIEGHT / WIDTH) / tan(FOV * 0.5 / 180.0 * M_PI);
+	matrix[0][0] = 1 / tan(FOV / 2);
+	matrix[1][1] = (HIEGHT / WIDTH) / tan(FOV * 0.5);
 	matrix[2][2] = (F_NEAR + F_FAR) / (F_NEAR - F_FAR);
 	matrix[3][2] = (2 * F_NEAR * F_FAR)/ (F_NEAR - F_FAR);
 	matrix[2][3] = 	-1.0;

@@ -4,7 +4,10 @@
 		"fdf.h": "c",
 		"grah.h": "c",
 		"uio.h": "c",
-		"math.h": "c"
+		"math.h": "c",
+		"__locale": "c",
+		"complex": "c",
+		"cmath": "c"
 	},
 	"C_Cpp.dimInactiveRegions": false
 }
