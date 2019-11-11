@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 17:13:49 by mburl             #+#    #+#             */
-/*   Updated: 2019/11/11 17:20:47 by mburl            ###   ########.fr       */
+/*   Updated: 2019/11/11 18:23:06 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,22 @@
 // 1: LMB		2:RMB		3:MMB		4:down		5:up
 int		move_obj(int button, int x, int y, void *param)
 {
-	printf("\nb:%i, x = %i, y = %i", button, x, y);
-	(void)param;
+	t_data	*data;
+	t_fdf	*lst;
+	t_fdf	*temp;
+	
+	data = (t_data *)param;
+	lst = data->lst;
+	//  window must be cleaned
+	if (button == 4)
+	{
+		data->scale += 1;
+		temp = scaling(lst, data->scale);
+		mlx_clear_window(data->mlx->ptr, data->mlx->win);
+		drawing_map(lst, data->mlx);
+	}
+	(void)x;
+	(void)y;
 	return (0);	
 }
 //needs scaling matrix
@@ -27,49 +41,23 @@ void	make_window(t_fdf *lst)
 {
 	void	*mlx_ptr;
 	void	*mlx_win;
+	t_data	*data;
 	t_mlx	*mlx_list;
-	int		temp[2];
+	t_fdf	*temp;
 
 	mlx_ptr = mlx_init();
 	mlx_win = mlx_new_window(mlx_ptr, HIEGHT, WIDTH, "FdF");
 	mlx_list = (t_mlx *)malloc(sizeof(t_mlx));
 	mlx_list->ptr = mlx_ptr;
 	mlx_list->win = mlx_win;
+	data = (t_data *)malloc(sizeof(t_data));
 
-	while (lst)
-	{
-		if (lst->prev)
-			lst = lst->prev;
-		else
-		{
-			if (lst->up)
-				lst = lst->up;
-			else
-				break ;
-		}
-	}
-	lst = lst->next;
-	temp[0] = 4;
-	temp[1] = 1;		
-	while (lst)
-	{
-		lst->coords = matrix_mul(scaling_matrix(5), lst->coords, temp);			
-		if (!lst->next)
-		{
-			if (lst->down)
-			{
-				while (lst->prev)
-					lst = lst->prev;
-				lst = lst->down;
-			}
-			else
-				break ;
-		}
-		else
-			lst = lst->next;
-	}
+	data->lst = lst;
+	data->mlx = mlx_list;
+	data->scale = 5;
+	temp = scaling(lst, data->scale);
 	drawing_map(lst, mlx_list);
 	////
-	mlx_mouse_hook(mlx_win, move_obj, mlx_list);
+	mlx_mouse_hook(mlx_win, move_obj, data);
 	mlx_loop(mlx_ptr);
 }
