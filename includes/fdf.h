@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 12:07:18 by mburl             #+#    #+#             */
-/*   Updated: 2019/11/11 18:05:39 by mburl            ###   ########.fr       */
+/*   Updated: 2019/11/11 18:34:57 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,6 @@ double		**translate_matrix(double x, double y, double z);
 void	ft_mlx_line(int x1, int y1, int x2, int y2, t_mlx *lst);
 void	drawing_map(t_fdf *lst, t_mlx *mlx_list);
 double		**scaling_matrix(double	pers);
-t_fdf	*scaling(t_fdf *lst, int scale);
+void	scaling(t_fdf *lst, int scale);
 
 #endif

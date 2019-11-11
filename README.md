@@ -5,3 +5,4 @@
 TO DO:
 1. Scaling to window size
 2. Widnow size will be near to printin image
+3. Drag&Drop mlx_int_param_event.c mlx_loop_hook
