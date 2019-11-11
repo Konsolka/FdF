@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 16:15:24 by mburl             #+#    #+#             */
-/*   Updated: 2019/11/11 16:30:57 by mburl            ###   ########.fr       */
+/*   Updated: 2019/11/11 17:25:03 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	drawing_map(t_fdf *lst, t_mlx *mlx_list)
 		}
 	}
 	lst = lst->next;
-	while (lst->next || lst->down)
+	while (lst)
 	{
 		temp[0] = 4;
 		temp[1] = 1;		

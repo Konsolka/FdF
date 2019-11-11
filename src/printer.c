@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 17:13:49 by mburl             #+#    #+#             */
-/*   Updated: 2019/11/11 16:34:21 by mburl            ###   ########.fr       */
+/*   Updated: 2019/11/11 17:20:47 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 int		move_obj(int button, int x, int y, void *param)
 {
 	printf("\nb:%i, x = %i, y = %i", button, x, y);
+	(void)param;
 	return (0);	
 }
 //needs scaling matrix
@@ -48,16 +49,16 @@ void	make_window(t_fdf *lst)
 		}
 	}
 	lst = lst->next;
-	while (lst->next || lst->down)
+	temp[0] = 4;
+	temp[1] = 1;		
+	while (lst)
 	{
-		temp[0] = 4;
-		temp[1] = 1;		
-		matrix_mul(scaling_matrix(50))			
+		lst->coords = matrix_mul(scaling_matrix(5), lst->coords, temp);			
 		if (!lst->next)
 		{
 			if (lst->down)
 			{
-				while (lst->prev->prev)
+				while (lst->prev)
 					lst = lst->prev;
 				lst = lst->down;
 			}
@@ -67,6 +68,7 @@ void	make_window(t_fdf *lst)
 		else
 			lst = lst->next;
 	}
+	drawing_map(lst, mlx_list);
 	////
 	mlx_mouse_hook(mlx_win, move_obj, mlx_list);
 	mlx_loop(mlx_ptr);
