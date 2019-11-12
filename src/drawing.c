@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 16:15:24 by mburl             #+#    #+#             */
-/*   Updated: 2019/11/12 16:36:34 by mburl            ###   ########.fr       */
+/*   Updated: 2019/11/12 18:08:57 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ void	drawing_map(t_fdf *lst, t_mlx *mlx_list)
 void	scaling(t_fdf *lst, double scale_x, double scale_y, double scale_z)
 {
 	ft_lst_begin(&lst);
-	lst = lst->next;	
 	while (lst)
 	{
 		lst->coords[0][0] *= scale_x;

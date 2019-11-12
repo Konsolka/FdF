@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 19:29:20 by mburl             #+#    #+#             */
-/*   Updated: 2019/11/11 14:01:50 by mburl            ###   ########.fr       */
+/*   Updated: 2019/11/12 19:34:05 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,3 @@ double		**create4x4_matrix(void)
 	matrix[2][3] = 	-1.0;
 	return (matrix);
 }
-
-// void BuildPerspProjMat(float *m, float fov, float aspect,
-// float znear, float zfar)
-// {
-	
-// }

@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 11:07:21 by mburl             #+#    #+#             */
-/*   Updated: 2019/11/11 17:22:33 by mburl            ###   ########.fr       */
+/*   Updated: 2019/11/12 19:44:23 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,20 +46,6 @@ t_fdf		*read_file(int fd, t_map **map)
 	return (lst);
 }
 
-// int			print_map(t_fdf *lst)
-// {
-		
-// 	return (0);
-// }
-
-/*	Projection:
-**
-**	1/ tan(O/2)				0				0										0
-**	0						p/ tan(O/2)		0										0					p = ratio (16/9)(4/4)
-**	0						0				n + f / n - f							2nf/ n - f
-**	0						0				-1										0
-**
-*/
 int			main(int ac, char **av)
 {
 	t_fdf	*lst;
@@ -77,7 +63,8 @@ int			main(int ac, char **av)
 	}
 	temp[0] = 4;
 	temp[1] = 4;
-	T_matrix = matrix_mul(f_matrix_a(45), f_matrix_b(120), temp);
+	T_matrix = matrix_mul(f_matrix_a(1), f_matrix_b(0), temp);
+	T_matrix = matrix_mul(T_matrix, f_matrix_z(-0.5), temp);
 	temp[1] = 1;
 	while (lst)
 	{
@@ -99,5 +86,6 @@ int			main(int ac, char **av)
 			lst = lst->prev;
 	}
 	make_window(lst);
+	free(lst);
 	return (0);
 }

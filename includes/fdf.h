@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 12:07:18 by mburl             #+#    #+#             */
-/*   Updated: 2019/11/12 16:58:39 by mburl            ###   ########.fr       */
+/*   Updated: 2019/11/12 19:43:28 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	drawing_map(t_fdf *lst, t_mlx *mlx_list);
 double		**scaling_matrix(double	pers);
 void	scaling(t_fdf *lst, double scale_x, double scale_y, double scale_z);
 void	ft_lst_begin(t_fdf **alst);
-double		**move_matrix(double move_x, double move_y, double move_z);
+int		*min_max(t_fdf *lst);
+double	**f_matrix_z(double z);
 
 #endif

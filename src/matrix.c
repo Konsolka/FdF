@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 13:19:36 by mburl             #+#    #+#             */
-/*   Updated: 2019/11/12 16:57:46 by mburl            ###   ########.fr       */
+/*   Updated: 2019/11/12 19:43:18 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,27 +131,30 @@ double		**translate_matrix(double x, double y, double z)
 	return (matrix_b);
 }
 
-double		**move_matrix(double move_x, double move_y, double move_z)
+double	**f_matrix_z(double z)
 {
-	double	**matrix_move;
+	double	**matrix_z;
 	int		i;
 	int		j;
 
 	i = 0;
-	matrix_move = (double **)malloc(sizeof(double *) * 4);
+	matrix_z = (double **)malloc(sizeof(double *) * 4);
 	while (i < 4)
 	{
 		j = 0;
-		matrix_move[i] = (double *)malloc(sizeof(double) * 4);
+		matrix_z[i] = (double *)malloc(sizeof(double) * 4);
 		while (j < 4)
 		{
-			matrix_move[i][j] = 0;
+			matrix_z[i][j] = 0;
 			j++;
 		}
 		i++;
 	}
-	matrix_move[3][0] = move_x;
-	matrix_move[3][1] = move_y;
-	matrix_move[3][2] = move_z;
-	return(matrix_move);
+	matrix_z[0][0] = cos(z);
+	matrix_z[0][1] = -sin(z);
+	matrix_z[1][0] = sin(z);
+	matrix_z[1][1] = cos(z);
+	matrix_z[2][2] = 1;
+
+	return (matrix_z);
 }
