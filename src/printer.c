@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 17:13:49 by mburl             #+#    #+#             */
-/*   Updated: 2019/11/11 19:01:18 by mburl            ###   ########.fr       */
+/*   Updated: 2019/11/12 17:09:13 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ int		move_obj(int button, int x, int y, void *param)
 	if (button == 4)
 	{
 		// scaling(lst, 1 / data->scale);
-		scaling(lst, 1.2);
+		scaling(lst, 1.2, 1.2, 1.2);
 		mlx_clear_window(data->mlx->ptr, data->mlx->win);
 		drawing_map(lst, data->mlx);
 	}
 	if (button == 5)
 	{
-		scaling(lst, 0.8);
+		scaling(lst, 0.8, 0.8, 0.8);
 		mlx_clear_window(data->mlx->ptr, data->mlx->win);
 		drawing_map(lst, data->mlx);
 	}
@@ -42,6 +42,55 @@ int		move_obj(int button, int x, int y, void *param)
 }
 //needs scaling matrix
 // and scale to % of screen size
+
+void	move(t_fdf *lst, double d, int vert)
+{
+	int	temp[2];
+	double x;
+	double y;
+
+	ft_lst_begin(&lst);
+	x = 0;
+	y = 0;
+	temp[0] = 4;
+	temp[1] = 1;
+	(void)vert;
+	// if (vert)
+	// 	y = d;
+	// else
+	// 	x = d;
+	while (lst)
+	{
+		lst->coords[1][0] += 0;
+		lst->coords[3][0] += d;
+		if (!lst->next)
+		{
+			if (lst->down)
+			{
+				while (lst->prev)
+					lst = lst->prev;
+				lst = lst->down;
+			}
+			else
+				break ;
+		}
+		else
+			lst = lst->next;
+	}
+}
+
+int		key_parse(int key, void *param)
+{
+	t_data	*data;
+
+	data = (t_data *)param;
+	if (key == 123)
+		move(data->lst, -5, 0);
+	mlx_clear_window(data->mlx->ptr, data->mlx->win);
+	drawing_map(data->lst, data->mlx);
+	return (0);
+}
+// down:125 up: 126 left:123 right" 124
 void	make_window(t_fdf *lst)
 {
 	void	*mlx_ptr;
@@ -58,10 +107,10 @@ void	make_window(t_fdf *lst)
 
 	data->lst = lst;
 	data->mlx = mlx_list;
-	data->scale = 5.0;
-	scaling(lst, data->scale);
+	scaling(lst, 1.2, 1.2, 1.2);
 	drawing_map(lst, mlx_list);
 	////
 	mlx_mouse_hook(mlx_win, move_obj, data);
+	mlx_key_hook(mlx_win, key_parse, data);
 	mlx_loop(mlx_ptr);
 }

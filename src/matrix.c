@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 13:19:36 by mburl             #+#    #+#             */
-/*   Updated: 2019/11/11 18:37:18 by mburl            ###   ########.fr       */
+/*   Updated: 2019/11/12 16:57:46 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,4 +129,29 @@ double		**translate_matrix(double x, double y, double z)
 	matrix_b[2][3] = z;
 
 	return (matrix_b);
+}
+
+double		**move_matrix(double move_x, double move_y, double move_z)
+{
+	double	**matrix_move;
+	int		i;
+	int		j;
+
+	i = 0;
+	matrix_move = (double **)malloc(sizeof(double *) * 4);
+	while (i < 4)
+	{
+		j = 0;
+		matrix_move[i] = (double *)malloc(sizeof(double) * 4);
+		while (j < 4)
+		{
+			matrix_move[i][j] = 0;
+			j++;
+		}
+		i++;
+	}
+	matrix_move[3][0] = move_x;
+	matrix_move[3][1] = move_y;
+	matrix_move[3][2] = move_z;
+	return(matrix_move);
 }

@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 15:18:18 by mburl             #+#    #+#             */
-/*   Updated: 2019/11/11 18:32:32 by mburl            ###   ########.fr       */
+/*   Updated: 2019/11/12 16:55:14 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,24 @@ void	ft_fdfdown(t_fdf **alst, t_fdf *new)
 	curr->down->up = curr;
 	curr = curr->down;
 	*alst = curr;
+}
+
+void	ft_lst_begin(t_fdf **alst)
+{
+	t_fdf	*lst;
+
+	lst = *alst;
+	while (lst)
+	{
+		if (lst->prev)
+			lst = lst->prev;
+		else
+		{
+			if (lst->up)
+				lst = lst->up;
+			else
+				break ;
+		}
+	}
+	*alst = lst;
 }

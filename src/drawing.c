@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 16:15:24 by mburl             #+#    #+#             */
-/*   Updated: 2019/11/11 19:00:02 by mburl            ###   ########.fr       */
+/*   Updated: 2019/11/12 16:36:34 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,18 +47,7 @@ void	drawing_map(t_fdf *lst, t_mlx *mlx_list)
 {
 	int		temp[2];
 
-	while (lst)
-	{
-		if (lst->prev)
-			lst = lst->prev;
-		else
-		{
-			if (lst->up)
-				lst = lst->up;
-			else
-				break ;
-		}
-	}
+	ft_lst_begin(&lst);
 	lst = lst->next;
 	while (lst)
 	{
@@ -70,7 +59,6 @@ void	drawing_map(t_fdf *lst, t_mlx *mlx_list)
 			ft_mlx_line((int)(lst->prev->up->coords[0][0]), (int)(lst->prev->up->coords[1][0]), (int)(lst->prev->coords[0][0]), (int)(lst->prev->coords[1][0]), mlx_list);
 			ft_mlx_line((int)(lst->up->coords[0][0]), (int)(lst->up->coords[1][0]), (int)(lst->coords[0][0]), (int)(lst->coords[1][0]), mlx_list);
 		}
-			
 		if (!lst->next)
 		{
 			if (lst->down)
@@ -90,32 +78,15 @@ void	drawing_map(t_fdf *lst, t_mlx *mlx_list)
 /*
 **	needs to fix lower scale
 */
-void	scaling(t_fdf *lst, double scale)
+void	scaling(t_fdf *lst, double scale_x, double scale_y, double scale_z)
 {
-	int		temp[2];
-
+	ft_lst_begin(&lst);
+	lst = lst->next;	
 	while (lst)
 	{
-		if (lst->prev)
-			lst = lst->prev;
-		else
-		{
-			if (lst->up)
-				lst = lst->up;
-			else
-				break ;
-		}
-	}
-	lst = lst->next;
-	temp[0] = 4;
-	temp[1] = 1;	
-	while (lst)
-	{
-		if (lst->coords[0][0] * scale > 1 || lst->coords[1][0] * scale > 1)
-		{
-			lst->coords[0][0] *= scale;
-			lst->coords[1][0] *= scale;
-		}
+		lst->coords[0][0] *= scale_x;
+		lst->coords[1][0] *= scale_y;
+		lst->coords[2][0] *= scale_z;
 		if (!lst->next)
 		{
 			if (lst->down)

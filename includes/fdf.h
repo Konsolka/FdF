@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 12:07:18 by mburl             #+#    #+#             */
-/*   Updated: 2019/11/11 18:47:48 by mburl            ###   ########.fr       */
+/*   Updated: 2019/11/12 16:58:39 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ typedef struct	s_data
 {
 	t_mlx	*mlx;
 	t_fdf	*lst;
-	int		scale;
 }				t_data;
 t_fdf	*ft_create_node(int x, int y, int z);
 void	ft_fdfadd(t_fdf **alst, t_fdf *new);
@@ -69,6 +68,8 @@ double		**translate_matrix(double x, double y, double z);
 void	ft_mlx_line(int x1, int y1, int x2, int y2, t_mlx *lst);
 void	drawing_map(t_fdf *lst, t_mlx *mlx_list);
 double		**scaling_matrix(double	pers);
-void	scaling(t_fdf *lst, double scale);
+void	scaling(t_fdf *lst, double scale_x, double scale_y, double scale_z);
+void	ft_lst_begin(t_fdf **alst);
+double		**move_matrix(double move_x, double move_y, double move_z);
 
 #endif
