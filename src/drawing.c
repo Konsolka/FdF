@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 16:15:24 by mburl             #+#    #+#             */
-/*   Updated: 2019/11/12 18:08:57 by mburl            ###   ########.fr       */
+/*   Updated: 2019/11/13 19:12:01 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,14 @@ void	drawing_map(t_fdf *lst, t_mlx *mlx_list)
 	{
 		temp[0] = 4;
 		temp[1] = 1;		
-		ft_mlx_line((int)(lst->prev->coords[0][0]), (int)(lst->prev->coords[1][0]), (int)(lst->coords[0][0]), (int)(lst->coords[1][0]), mlx_list);
+		ft_mlx_line((int)(lst->prev->coords[0][0]) + 100, (int)(lst->prev->coords[1][0]) + (int)(HIEGHT / 2),
+		(int)(lst->coords[0][0]) + 100, (int)(lst->coords[1][0]) + (int)(HIEGHT / 2), mlx_list);
 		if (lst->up)
 		{
-			ft_mlx_line((int)(lst->prev->up->coords[0][0]), (int)(lst->prev->up->coords[1][0]), (int)(lst->prev->coords[0][0]), (int)(lst->prev->coords[1][0]), mlx_list);
-			ft_mlx_line((int)(lst->up->coords[0][0]), (int)(lst->up->coords[1][0]), (int)(lst->coords[0][0]), (int)(lst->coords[1][0]), mlx_list);
+			ft_mlx_line((int)(lst->prev->up->coords[0][0]) + 100, (int)(lst->prev->up->coords[1][0]) + (int)(HIEGHT / 2),
+			(int)(lst->prev->coords[0][0]) + 100, (int)(lst->prev->coords[1][0]) + (int)(HIEGHT / 2), mlx_list);
+			ft_mlx_line((int)(lst->up->coords[0][0]) + 100, (int)(lst->up->coords[1][0]) + (int)(HIEGHT / 2),
+			(int)(lst->coords[0][0]) + 100, (int)(lst->coords[1][0]) + (int)(HIEGHT / 2), mlx_list);
 		}
 		if (!lst->next)
 		{

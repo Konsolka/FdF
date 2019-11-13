@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 17:13:49 by mburl             #+#    #+#             */
-/*   Updated: 2019/11/12 19:35:16 by mburl            ###   ########.fr       */
+/*   Updated: 2019/11/13 20:18:01 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,20 +45,11 @@ int		scale_obj(int button, int x, int y, void *param)
 
 void	move(t_fdf *lst, double d, int vert)
 {
-	double x;
-	double y;
-
 	ft_lst_begin(&lst);
-	x = 0.0;
-	y = 0.0;
-	if (vert)
-		y = d;
-	else
-		x = d;
 	while (lst)
 	{
-		lst->coords[0][0] += x;
-		lst->coords[1][0] += y;
+		lst->coords[0][0] += (vert == 1 ? 0 : d);
+		lst->coords[1][0] += (vert == 1 ? d : 0);
 		if (!lst->next)
 		{
 			if (lst->down)
@@ -103,6 +94,14 @@ void	rotate(char x, double angle, t_fdf *lst)
 }
 // down:125 up: 126 left:123 right" 124
 
+int		mlx_close(t_data *data)
+{
+	mlx_destroy_window(data->mlx->ptr, data->mlx->win);
+	ft_4_lst_del(data->lst);
+	free(data->mlx);
+	exit(0);
+}
+
 int		key_parse(int key, void *param)
 {
 	t_data	*data;
@@ -117,17 +116,22 @@ int		key_parse(int key, void *param)
 		// rotate('y', 0.1, data->lst);
 	if (key == 124)
 		move(data->lst, 5, 0);
+	else if (key == 53)
+		mlx_close(data);
 	mlx_clear_window(data->mlx->ptr, data->mlx->win);
 	drawing_map(data->lst, data->mlx);
 	return (0);
 }
 void	make_window(t_fdf *lst)
 {
+	double	*min_max_d;
 	void	*mlx_ptr;
 	void	*mlx_win;
 	t_data	*data;
 	t_mlx	*mlx_list;
 
+	min_max_d = min_max(lst);
+	scaling(lst, WIDTH / (min_max_d[2] - min_max_d[0]), WIDTH / (min_max_d[2] - min_max_d[0]), WIDTH / (min_max_d[2] - min_max_d[0]));
 	mlx_ptr = mlx_init();
 	mlx_win = mlx_new_window(mlx_ptr, HIEGHT, WIDTH, "FdF");
 	mlx_list = (t_mlx *)malloc(sizeof(t_mlx));
@@ -137,7 +141,6 @@ void	make_window(t_fdf *lst)
 
 	data->lst = lst;
 	data->mlx = mlx_list;
-	scaling(lst, 50.0, 50.0, 50.0);
 	drawing_map(lst, mlx_list);
 	////
 	mlx_mouse_hook(mlx_win, scale_obj, data);

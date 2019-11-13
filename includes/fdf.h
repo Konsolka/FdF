@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 12:07:18 by mburl             #+#    #+#             */
-/*   Updated: 2019/11/12 19:43:28 by mburl            ###   ########.fr       */
+/*   Updated: 2019/11/13 20:17:12 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 # include "libft.h"
 # include "mlx.h"
 # include "get_next_line.h"
-# define HIEGHT 720
-# define WIDTH 480
+# define HIEGHT 1280
+# define WIDTH 720
 # define FOV 90
 # define F_NEAR 0.1
 # define F_FAR 100.0
@@ -70,7 +70,10 @@ void	drawing_map(t_fdf *lst, t_mlx *mlx_list);
 double		**scaling_matrix(double	pers);
 void	scaling(t_fdf *lst, double scale_x, double scale_y, double scale_z);
 void	ft_lst_begin(t_fdf **alst);
-int		*min_max(t_fdf *lst);
+double	*min_max(t_fdf *lst);
 double	**f_matrix_z(double z);
+void	ft_4_lst_del(t_fdf *lst);
+void	ft_del_double_arr(double **ar, int i);
+void	preparations(t_fdf *lst);
 
 #endif

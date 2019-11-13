@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 11:07:21 by mburl             #+#    #+#             */
-/*   Updated: 2019/11/12 19:44:23 by mburl            ###   ########.fr       */
+/*   Updated: 2019/11/13 20:16:58 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ t_fdf		*read_file(int fd, t_map **map)
 int			main(int ac, char **av)
 {
 	t_fdf	*lst;
-	double	**T_matrix;
-	int		temp[2];
 	t_map	*map;
 	
 	if (ac != 2)
@@ -61,31 +59,8 @@ int			main(int ac, char **av)
 		free(map);
 		ft_putstr_err("error\n");
 	}
-	temp[0] = 4;
-	temp[1] = 4;
-	T_matrix = matrix_mul(f_matrix_a(1), f_matrix_b(0), temp);
-	T_matrix = matrix_mul(T_matrix, f_matrix_z(-0.5), temp);
-	temp[1] = 1;
-	while (lst)
-	{
-		lst->coords = matrix_mul(translate_matrix(0, 0, 0), lst->coords, temp);
-		lst->coords = matrix_mul(T_matrix, lst->coords, temp);
-		lst->coords = matrix_mul(create4x4_matrix(), lst->coords, temp);
-		if (!lst->prev)
-		{
-			if (lst->up)
-			{
-				while (lst->next)
-					lst = lst->next;
-				lst = lst->up;
-			}
-			else
-				break ;
-		}
-		else
-			lst = lst->prev;
-	}
+	preparations(lst);
+	free(map);
 	make_window(lst);
-	free(lst);
 	return (0);
 }

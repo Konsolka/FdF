@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 15:18:18 by mburl             #+#    #+#             */
-/*   Updated: 2019/11/12 16:55:14 by mburl            ###   ########.fr       */
+/*   Updated: 2019/11/13 20:36:40 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,41 @@ void	ft_lst_begin(t_fdf **alst)
 		}
 	}
 	*alst = lst;
+}
+
+void	ft_4_lst_del(t_fdf *lst)
+{
+	t_fdf	*temp;
+	
+	ft_lst_begin(&lst);
+	while (lst)
+	{
+		if (lst->next)
+		{
+			while (lst->next)
+			{
+				temp = lst->next;
+				free(lst);
+				lst = temp;
+			}
+		}
+		else if (lst->down)
+		{
+			temp = lst->down;
+			free(lst);
+			lst = temp;
+			while (lst->prev)
+				lst = lst->prev;
+		}
+		else if (lst)
+			break ;
+	}
+	free(lst);
+}
+
+void	ft_del_double_arr(double **ar, int i)
+{
+	while (--i >= 0)
+		free(ar[i]);
+	free(ar);
 }
