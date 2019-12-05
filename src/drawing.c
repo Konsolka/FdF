@@ -6,11 +6,17 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 16:15:24 by mburl             #+#    #+#             */
-/*   Updated: 2019/11/13 19:12:01 by mburl            ###   ########.fr       */
+/*   Updated: 2019/12/05 15:27:02 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+
+void	ft_draw_line(t_fdf *lst, t_mlx *mlx_lst)
+{
+
+}
 
 void	ft_mlx_line(int x1, int y1, int x2, int y2, t_mlx *lst)
 {
@@ -43,38 +49,26 @@ void	ft_mlx_line(int x1, int y1, int x2, int y2, t_mlx *lst)
 	}
 }
 
-void	drawing_map(t_fdf *lst, t_mlx *mlx_list)
+void	draw_map(t_fdf *lst, t_mlx *mlx_list)
 {
 	int		temp[2];
+	int		i;
 
-	ft_lst_begin(&lst);
-	lst = lst->next;
+	fdf_lst_begin(&lst);
 	while (lst)
 	{
-		temp[0] = 4;
-		temp[1] = 1;		
-		ft_mlx_line((int)(lst->prev->coords[0][0]) + 100, (int)(lst->prev->coords[1][0]) + (int)(HIEGHT / 2),
-		(int)(lst->coords[0][0]) + 100, (int)(lst->coords[1][0]) + (int)(HIEGHT / 2), mlx_list);
-		if (lst->up)
+		i = 0;
+		while(i + 1 < lst->max_line)
 		{
-			ft_mlx_line((int)(lst->prev->up->coords[0][0]) + 100, (int)(lst->prev->up->coords[1][0]) + (int)(HIEGHT / 2),
-			(int)(lst->prev->coords[0][0]) + 100, (int)(lst->prev->coords[1][0]) + (int)(HIEGHT / 2), mlx_list);
-			ft_mlx_line((int)(lst->up->coords[0][0]) + 100, (int)(lst->up->coords[1][0]) + (int)(HIEGHT / 2),
-			(int)(lst->coords[0][0]) + 100, (int)(lst->coords[1][0]) + (int)(HIEGHT / 2), mlx_list);
+			printf("-- x = %f -- y =  %f -- z = %f ===\n", lst->coords[i][0], lst->coords[i][1], lst->coords[i][2]);
+			ft_mlx_line(lst->coords[i][0], lst->coords[i][1], lst->coords[i + 1][0], lst->coords[i + 1][1], mlx_list);
+			if (i == 0 && lst->up)
+				ft_mlx_line(lst->coords[i][0], lst->coords[i][1], lst->up->coords[i][0], lst->up->coords[i][1], mlx_list);
+			if (lst->up)
+				ft_mlx_line(lst->coords[i + 1][0], lst->coords[i + 1][1], lst->up->coords[i + 1][0], lst->up->coords[i + 1][1], mlx_list);
+			i++;
 		}
-		if (!lst->next)
-		{
-			if (lst->down)
-			{
-				while (lst->prev->prev)
-					lst = lst->prev;
-				lst = lst->down;
-			}
-			else
-				break ;
-		}
-		else
-			lst = lst->next;
+		lst = lst->down;
 	}
 }
 
@@ -83,24 +77,22 @@ void	drawing_map(t_fdf *lst, t_mlx *mlx_list)
 */
 void	scaling(t_fdf *lst, double scale_x, double scale_y, double scale_z)
 {
-	ft_lst_begin(&lst);
+	int i;
+
+	fdf_lst_begin(&lst);
 	while (lst)
 	{
-		lst->coords[0][0] *= scale_x;
-		lst->coords[1][0] *= scale_y;
-		lst->coords[2][0] *= scale_z;
-		if (!lst->next)
+		i = 0;
+		while (i < lst->max_line)
 		{
-			if (lst->down)
-			{
-				while (lst->prev)
-					lst = lst->prev;
-				lst = lst->down;
-			}
-			else
-				break ;
+			lst->coords[i][0] *= scale_x;
+			lst->coords[i][1] *= scale_y;
+			lst->coords[i][2] *= scale_z;
+			i++;
 		}
+		if (lst->down)
+			lst = lst->down;
 		else
-			lst = lst->next;
+			break ;
 	}
 }

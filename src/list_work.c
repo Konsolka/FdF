@@ -6,121 +6,84 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 15:18:18 by mburl             #+#    #+#             */
-/*   Updated: 2019/11/13 20:36:40 by mburl            ###   ########.fr       */
+/*   Updated: 2019/12/05 14:30:17 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-t_fdf	*ft_create_node(int x, int y, int z)
-{
-	t_fdf	*node;
-
-	node = (t_fdf *)malloc(sizeof(t_fdf));
-	node->coords = (double **)malloc(sizeof(double *) * 3);
-	node->coords[0] = (double *)malloc(sizeof(double));
-	node->coords[0][0] = x;
-	node->coords[1] = (double *)malloc(sizeof(double));
-	node->coords[1][0] = y;
-	node->coords[2] = (double *)malloc(sizeof(double));
-	node->coords[2][0] = z;
-	node->coords[3] = (double *)malloc(sizeof(double));
-	node->coords[3][0] = 1;
-	node->next = NULL;
-	node->prev = NULL;
-	node->up = NULL;
-	node->down = NULL;
-	return (node);
-}
-
-void	ft_fdfadd(t_fdf **alst, t_fdf *new)
-{
-	t_fdf *curr;
-
-	curr = *alst;
-	if (!curr)
-		curr = new;
-	else
-	{
-		if (curr->up)
-		{
-			if (curr->up->next)
-			{
-				new->up = curr->up->next;
-				curr->up->next->down = new;
-			}
-		}
-		new->prev = curr;
-		curr->next = new;
-		curr = curr->next;
-	}
-	*alst = curr;
-}
-
-void	ft_fdfdown(t_fdf **alst, t_fdf *new)
-{
-	t_fdf *curr;
-
-	curr = *alst;
-	curr->down = new;
-	curr->down->up = curr;
-	curr = curr->down;
-	*alst = curr;
-}
-
-void	ft_lst_begin(t_fdf **alst)
+void	fdf_lst_begin(t_fdf **alst)
 {
 	t_fdf	*lst;
 
 	lst = *alst;
+	if (!lst->up)
+		return ;
 	while (lst)
 	{
-		if (lst->prev)
-			lst = lst->prev;
-		else
-		{
-			if (lst->up)
-				lst = lst->up;
-			else
-				break ;
-		}
+		lst = lst->up;
+		if (!lst->up)
+			break ;
 	}
 	*alst = lst;
 }
-
-void	ft_4_lst_del(t_fdf *lst)
+void	free_fdf_lst(t_fdf **alst)
 {
-	t_fdf	*temp;
-	
-	ft_lst_begin(&lst);
+	t_fdf	*lst;
+	int		i;
+
+	fdf_lst_begin(alst);
+	lst = *alst;
 	while (lst)
 	{
-		if (lst->next)
+		i = 0;
+		while (i < lst->max_line)
 		{
-			while (lst->next)
-			{
-				temp = lst->next;
-				free(lst);
-				lst = temp;
-			}
+			free(lst->coords[i]);
+			lst->coords[i] = NULL;
+			i++;
 		}
-		else if (lst->down)
+		if (!lst->down)
 		{
-			temp = lst->down;
 			free(lst);
-			lst = temp;
-			while (lst->prev)
-				lst = lst->prev;
+			lst = NULL;
+			return ;
 		}
-		else if (lst)
-			break ;
+		lst = lst->down;
+		free(lst->up);
+		lst->up = NULL;
 	}
-	free(lst);
 }
-
-void	ft_del_double_arr(double **ar, int i)
+void	ft_lst_add(t_fdf **alst, int x, int y, char **coords)
 {
-	while (--i >= 0)
-		free(ar[i]);
-	free(ar);
+	t_fdf	*new;
+	t_fdf	*lst;
+	int		z;
+	int		i;
+
+	lst = *alst;
+	new = (t_fdf *)malloc(sizeof(t_fdf));
+	i = 0;
+	new->coords = (double **)malloc(sizeof(double *) * x);
+	while (i < x)
+	{
+		z = ft_atoi(coords[i]);
+		new->coords[i] = (double *)malloc(sizeof(double) * 3);
+		new->coords[i][0] = i; 
+		new->coords[i][1] = y;
+		new->coords[i][2] = z;
+		i++;
+	}
+	new->down = NULL;
+	new->up = NULL;
+	new->max_line = x;
+	if (!lst)
+		lst = new;
+	else
+	{
+		lst->down = new;
+		lst->down->up = lst;
+		lst = lst->down;
+	}
+	*alst = lst;
 }

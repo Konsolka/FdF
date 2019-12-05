@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 17:13:49 by mburl             #+#    #+#             */
-/*   Updated: 2019/11/13 20:18:01 by mburl            ###   ########.fr       */
+/*   Updated: 2019/12/05 15:32:05 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,89 +15,87 @@
 #include <unistd.h>
 
 // 1: LMB		2:RMB		3:MMB		4:down		5:up
-int		scale_obj(int button, int x, int y, void *param)
-{
-	t_data	*data;
-	t_fdf	*lst;
+// int		scale_obj(int button, int x, int y, void *param)
+// {
+// 	t_data	*data;
+// 	t_fdf	*lst;
 	
-	data = (t_data *)param;
-	lst = data->lst;
-	//  window must be cleaned
-	if (button == 4)
-	{
-		// scaling(lst, 1 / data->scale);
-		scaling(lst, 1.2, 1.2, 1.2);
-		mlx_clear_window(data->mlx->ptr, data->mlx->win);
-		drawing_map(lst, data->mlx);
-	}
-	if (button == 5)
-	{
-		scaling(lst, 0.8, 0.8, 0.8);
-		mlx_clear_window(data->mlx->ptr, data->mlx->win);
-		drawing_map(lst, data->mlx);
-	}
-	(void)x;
-	(void)y;
-	return (0);	
-}
-//needs scaling matrix
-// and scale to % of screen size
+// 	data = (t_data *)param;
+// 	lst = data->lst;
+// 	//  window must be cleaned
+// 	if (button == 4)
+// 	{
+// 		// scaling(lst, 1 / data->scale);
+// 		scaling(lst, 1.2, 1.2, 1.2);
+// 		mlx_clear_window(data->mlx->ptr, data->mlx->win);
+// 		drawing_map(lst, data->mlx);
+// 	}
+// 	if (button == 5)
+// 	{
+// 		scaling(lst, 0.8, 0.8, 0.8);
+// 		mlx_clear_window(data->mlx->ptr, data->mlx->win);
+// 		drawing_map(lst, data->mlx);
+// 	}
+// 	(void)x;
+// 	(void)y;
+// 	return (0);	
+// }
+// //needs scaling matrix
+// // and scale to % of screen size
 
 void	move(t_fdf *lst, double d, int vert)
 {
-	ft_lst_begin(&lst);
+	int		i;
+
+	fdf_lst_begin(&lst);
 	while (lst)
 	{
-		lst->coords[0][0] += (vert == 1 ? 0 : d);
-		lst->coords[1][0] += (vert == 1 ? d : 0);
-		if (!lst->next)
+		i = 0;
+		while (i < lst->max_line)
 		{
-			if (lst->down)
-			{
-				while (lst->prev)
-					lst = lst->prev;
-				lst = lst->down;
-			}
-			else
-				break ;
+			lst->coords[i][0] += (vert == 1 ? 0 : d);
+			lst->coords[i][1] += (vert == 1 ? d : 0);
+			i++;
 		}
+		if (lst->down)
+			lst = lst->down;
 		else
-			lst = lst->next;
+			break ;
 	}
 }
 
-void	rotate(char x, double angle, t_fdf *lst)
-{
-	int		temp[2];
+// void	rotate(char x, double angle, t_fdf *lst)
+// {
+// 	int		temp[2];
 
-	temp[0] = 4;
-	temp[1] = 1;
-	ft_lst_begin(&lst);
-	while (lst)
-	{
-		lst->coords = matrix_mul(f_matrix_b(angle), lst->coords, temp);
-		if (!lst->next)
-		{
-			if (lst->down)
-			{
-				while (lst->prev)
-					lst = lst->prev;
-				lst = lst->down;
-			}
-			else
-				break ;
-		}
-		else
-			lst = lst->next;
-	}
-	(void)x;
-}
+// 	temp[0] = 4;
+// 	temp[1] = 1;
+// 	ft_lst_begin(&lst);
+// 	while (lst)
+// 	{
+// 		lst->coords = matrix_mul(f_matrix_b(angle), lst->coords, temp);
+// 		if (!lst->next)
+// 		{
+// 			if (lst->down)
+// 			{
+// 				while (lst->prev)
+// 					lst = lst->prev;
+// 				lst = lst->down;
+// 			}
+// 			else
+// 				break ;
+// 		}
+// 		else
+// 			lst = lst->next;
+// 	}
+// 	(void)x;
+// }
 // down:125 up: 126 left:123 right" 124
 
 int		mlx_close(t_data *data)
 {
 	mlx_destroy_window(data->mlx->ptr, data->mlx->win);
-	ft_4_lst_del(data->lst);
+	free_fdf_lst(&data->lst);
 	free(data->mlx);
 	exit(0);
 }
@@ -108,18 +106,18 @@ int		key_parse(int key, void *param)
 	
 	data = (t_data *)param;
 	if (key == 126)
-		move(data->lst, -5, 1);
-	if (key == 125)
+	 	move(data->lst, -5, 1);
+	else if (key == 125)
 		move(data->lst, 5, 1);
-	if (key == 123)
+	else if (key == 123)
 		move(data->lst, -5, 0);
 		// rotate('y', 0.1, data->lst);
-	if (key == 124)
+	else if (key == 124)
 		move(data->lst, 5, 0);
-	else if (key == 53)
+	if (key == 53)
 		mlx_close(data);
 	mlx_clear_window(data->mlx->ptr, data->mlx->win);
-	drawing_map(data->lst, data->mlx);
+	draw_map(data->lst, data->mlx);
 	return (0);
 }
 void	make_window(t_fdf *lst)
@@ -130,8 +128,9 @@ void	make_window(t_fdf *lst)
 	t_data	*data;
 	t_mlx	*mlx_list;
 
-	min_max_d = min_max(lst);
-	scaling(lst, WIDTH / (min_max_d[2] - min_max_d[0]), WIDTH / (min_max_d[2] - min_max_d[0]), WIDTH / (min_max_d[2] - min_max_d[0]));
+	// min_max_d = min_max(lst);
+	// scaling(lst, WIDTH / (min_max_d[2] - min_max_d[0]), WIDTH / (min_max_d[2] - min_max_d[0]), WIDTH / (min_max_d[2] - min_max_d[0]));
+	scaling(lst, 50, 50, 50);
 	mlx_ptr = mlx_init();
 	mlx_win = mlx_new_window(mlx_ptr, HIEGHT, WIDTH, "FdF");
 	mlx_list = (t_mlx *)malloc(sizeof(t_mlx));
@@ -141,9 +140,9 @@ void	make_window(t_fdf *lst)
 
 	data->lst = lst;
 	data->mlx = mlx_list;
-	drawing_map(lst, mlx_list);
+	draw_map(lst, mlx_list);
 	////
-	mlx_mouse_hook(mlx_win, scale_obj, data);
+	// mlx_mouse_hook(mlx_win, scale_obj, data);
 	mlx_key_hook(mlx_win, key_parse, data);
 	mlx_loop(mlx_ptr);
 }

@@ -6,12 +6,22 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 11:07:21 by mburl             #+#    #+#             */
-/*   Updated: 2019/11/13 20:16:58 by mburl            ###   ########.fr       */
+/*   Updated: 2019/12/05 15:29:47 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include <math.h>
+
+int			get_x(char **coords)
+{
+	int		i;
+
+	i = 0;
+	while (coords[i])
+		i++;
+	return (i);
+}
 
 t_fdf		*read_file(int fd, t_map **map)
 {
@@ -20,6 +30,7 @@ t_fdf		*read_file(int fd, t_map **map)
 	t_fdf	*lst;
 	int		y;
 	int 	i;
+	int		x;
 
 	lst = NULL;
 	line = NULL;
@@ -28,21 +39,10 @@ t_fdf		*read_file(int fd, t_map **map)
 	{
 		coord = ft_strsplit(line, ' ');
 		i = 0;
-		if (lst)
-			while (lst->prev)
-				lst = lst->prev;
-		while (coord[i] != '\0')
-		{
-			if (i == 0 && lst)
-				ft_fdfdown(&lst, ft_create_node(i, y, -ft_atoi(coord[i])));
-			else
-				ft_fdfadd(&lst, ft_create_node(i, y, -ft_atoi(coord[i])));
-			i++;
-		}
+		x = get_x(coord);
+		ft_lst_add(&lst, x, y, coord);
 		y++;
 	}
-	(*map)->max_x = i;
-	(*map)->max_y = y;
 	return (lst);
 }
 
@@ -62,5 +62,6 @@ int			main(int ac, char **av)
 	preparations(lst);
 	free(map);
 	make_window(lst);
+	free_fdf_lst(&lst);
 	return (0);
 }
