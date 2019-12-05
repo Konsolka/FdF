@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 17:13:49 by mburl             #+#    #+#             */
-/*   Updated: 2019/12/05 15:32:05 by mburl            ###   ########.fr       */
+/*   Updated: 2019/12/05 15:35:55 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,31 +15,24 @@
 #include <unistd.h>
 
 // 1: LMB		2:RMB		3:MMB		4:down		5:up
-// int		scale_obj(int button, int x, int y, void *param)
-// {
-// 	t_data	*data;
-// 	t_fdf	*lst;
+int		scale_obj(int button, int x, int y, void *param)
+{
+	t_data	*data;
+	t_fdf	*lst;
 	
-// 	data = (t_data *)param;
-// 	lst = data->lst;
-// 	//  window must be cleaned
-// 	if (button == 4)
-// 	{
-// 		// scaling(lst, 1 / data->scale);
-// 		scaling(lst, 1.2, 1.2, 1.2);
-// 		mlx_clear_window(data->mlx->ptr, data->mlx->win);
-// 		drawing_map(lst, data->mlx);
-// 	}
-// 	if (button == 5)
-// 	{
-// 		scaling(lst, 0.8, 0.8, 0.8);
-// 		mlx_clear_window(data->mlx->ptr, data->mlx->win);
-// 		drawing_map(lst, data->mlx);
-// 	}
-// 	(void)x;
-// 	(void)y;
-// 	return (0);	
-// }
+	data = (t_data *)param;
+	lst = data->lst;
+	//  window must be cleaned
+	if (button == 4)
+		scaling(lst, 1.2, 1.2, 1.2);
+	if (button == 5)
+		scaling(lst, 0.8, 0.8, 0.8);
+	mlx_clear_window(data->mlx->ptr, data->mlx->win);
+	draw_map(lst, data->mlx);
+	(void)x;
+	(void)y;
+	return (0);	
+}
 // //needs scaling matrix
 // // and scale to % of screen size
 
