@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 16:15:24 by mburl             #+#    #+#             */
-/*   Updated: 2019/12/05 17:16:23 by mburl            ###   ########.fr       */
+/*   Updated: 2019/12/06 16:22:37 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	draw_map(t_fdf *lst, t_mlx *mlx_list)
 	long	color;
 
 	fdf_lst_begin(&lst);
-	color = 255255255255;
+	color = 255255;
 	img_ptr = mlx_new_image(mlx_list->ptr, WIDTH, HIEGHT);
 	if (!(data_addr = mlx_get_data_addr(img_ptr, &bpp, &size_line, &ed)))
 	{
@@ -71,18 +71,16 @@ void	draw_map(t_fdf *lst, t_mlx *mlx_list)
 		x = 0;
 		while (x < lst->max_line)
 		{
-			i = ((int)(lst->coords[x][0] + 20) * bpp / 8) + ((int)(lst->coords[x][1] + 20) * size_line);
-			if (i < 0 || i > 20)
+			i = ((int)(lst->coords[x][0] + WIDTH / 2) * bpp / 8) + ((int)(lst->coords[x][1] + HIEGHT / 2) * size_line);
+			if (i < 0 || lst->coords[x][0] > WIDTH || lst->coords[x][1] > HIEGHT)
 			{
 				x++;
 				continue ;
 			}
 			data_addr[i] = color;
 			data_addr[++i] = color >> 8;
-			data_addr[++i] = color >> 16;
 			x++;
 		}
-		data_addr[i] = color;
 		if (lst->down)
 		{
 			lst = lst->down;
@@ -91,8 +89,8 @@ void	draw_map(t_fdf *lst, t_mlx *mlx_list)
 		else
 			break ;
 	}
-	free(data_addr);
 	mlx_put_image_to_window(mlx_list->ptr, mlx_list->win, img_ptr, 0, 0);
+	free(data_addr);
 }
 
 /*
