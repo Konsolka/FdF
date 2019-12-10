@@ -6,14 +6,14 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 16:15:24 by mburl             #+#    #+#             */
-/*   Updated: 2019/12/10 12:03:28 by mburl            ###   ########.fr       */
+/*   Updated: 2019/12/10 17:01:02 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
 
-void	ft_mlx_line(char **p_data_addr, int x1, int y1, int x2, int y2, int size_line, int bpp)
+void	ft_mlx_line(char *data_addr, int x1, int y1, int x2, int y2, int size_line, int bpp)
 {
 	int		deltx;
 	int		delty;
@@ -21,22 +21,24 @@ void	ft_mlx_line(char **p_data_addr, int x1, int y1, int x2, int y2, int size_li
 	int		signy;
 	int		error;
 	long	color;
-	char	*data_addr;
+	int		i;
 
-	data_addr = *p_data_addr;
 	color = 0xFFFFFF;
 	deltx = abs(x2 - x1);
 	delty = abs(y2 - y1);
 	signx = x1 < x2 ? 1 : -1;
 	signy = y1 < y2 ? 1 : -1;
 	error = deltx - delty;
-	data_addr[(x2 * bpp / 8) + (y2 * size_line)] = color;
-	data_addr[1 + (x2 * bpp / 8) + (y2 * size_line)] = color >> 8;
-	data_addr[2 + (x2 * bpp / 8) + (y2 * size_line)] = color >> 16;
+	if (!(x2 < 0 || y2 < 0 || x2 >= WIDTH || y2 >= HIEGHT))
+	{
+		data_addr[(x2 * bpp / 8) + (y2 * size_line)] = color;
+		data_addr[1 + (x2 * bpp / 8) + (y2 * size_line)] = color >> 8;
+		data_addr[2 + (x2 * bpp / 8) + (y2 * size_line)] = color >> 16;
+	}
 	while (x1 != x2 || y1 != y2)
 	{
 		double error2 = error * 2;
-		if (x1 < 0 || y1 < 0 || x1 > WIDTH || y1 > HIEGHT)
+		if (x1 < 0 || y1 < 0 || x1 >= WIDTH || y1 >= HIEGHT)
 		{
 			if (error2 > -delty)
 			{
@@ -50,9 +52,10 @@ void	ft_mlx_line(char **p_data_addr, int x1, int y1, int x2, int y2, int size_li
 			}
 			continue ;
 		}
-		data_addr[((x1) * bpp / 8) + ((y1) * size_line)] = color;
-		data_addr[1 + ((x1) * bpp / 8) + ((y1) * size_line)] = color >> 8;
-		data_addr[2 + ((x1) * bpp / 8) + ((y1) * size_line)] = color >> 16;
+		i = (x1 * bpp / 8) + (y1 * size_line);
+		data_addr[i] = color;
+		data_addr[++i] = color >> 8;
+		data_addr[++i] = color >> 16;
 		if (error2 > -delty)
 		{
 			error -= delty;
@@ -64,59 +67,88 @@ void	ft_mlx_line(char **p_data_addr, int x1, int y1, int x2, int y2, int size_li
 			y1 += signy;
 		}
 	}
-	*p_data_addr = data_addr;
 }
 
-void	draw_map(t_fdf *lst, t_mlx *mlx_list)
+void	draw_dots(t_data *data, t_fdf *lst)
 {
 	int		i;
+	int		iter;
+	long	color;
 	int		x;
 	int		y;
-	char	*data_addr;
-	void	*img_ptr;
-	int		bpp;
-	int		size_line;
-	int		ed;
 
 	fdf_lst_begin(&lst);
-	img_ptr = mlx_new_image(mlx_list->ptr, WIDTH, HIEGHT);
-	if (!(data_addr = mlx_get_data_addr(img_ptr, &bpp, &size_line, &ed)))
+	data->mlx->img = mlx_new_image(data->mlx->ptr, WIDTH, HIEGHT);
+	data->data_addr = mlx_get_data_addr(data->mlx->img, &data->bpp, &data->size_line, &data->ed);
+	color = 0xFFFFFF;
+	while (lst)
 	{
-		free_fdf_lst(&lst);
-		ft_putstr_err("Something goes wrong");
-	}
-	y = 0;
-	while (lst)	
-	{
-		x = 0;
-		while (x + 1 < lst->max_line)
+		iter = 0;
+		while (iter < lst->max_line)
 		{
-			if (lst->coords[x][0] < 0 || lst->coords[x][1] + 500 < 0 || lst->coords[x][0] > WIDTH || lst->coords[x][1] + 500 > HIEGHT ||
-				lst->coords[x + 1][0] < 0 || lst->coords[x + 1][1] + 500 < 0 || lst->coords[x + 1][0] > WIDTH || lst->coords[x + 1][1] + 500 > HIEGHT)
+			y = lst->coords[iter][1] + HIEGHT / 2 - (int)(data->min_max[3] + data->min_max[1]) / 2;
+			x = lst->coords[iter][0] + WIDTH / 2 - (int)(data->min_max[2] + data->min_max[0]) / 2;
+			if (x < 0 || x >= WIDTH || y < 0 || y >= HIEGHT)
 			{
-				x++;
+				iter++;
 				continue ;
 			}
-			ft_mlx_line(&data_addr, lst->coords[x][0], lst->coords[x][1] + 500, lst->coords[x + 1][0], lst->coords[x + 1][1] + 500, size_line, bpp);
-			if (lst->up)
-			{
-				if (!(lst->up->coords[x][0] < 0 || lst->up->coords[x][1] + 500 < 0 || lst->up->coords[x][0] > WIDTH || lst->up->coords[x][1] + 500 > HIEGHT ||
-				lst->up->coords[x + 1][0] < 0 || lst->up->coords[x + 1][1] + 500 < 0 || lst->up->coords[x + 1][0] > WIDTH || lst->up->coords[x + 1][1] + 500 > HIEGHT))
-				{
-					ft_mlx_line(&data_addr, lst->coords[x][0], lst->coords[x][1] + 500, lst->up->coords[x][0], lst->up->coords[x][1] + 500, size_line, bpp);
-				}
-			}
-			x++;
+			i = (x * data->bpp / 8) + (y * data->size_line);
+			data->data_addr[i] = color;
+			data->data_addr[++i] = color >> 8;
+			data->data_addr[++i] = color >> 16;
+			iter++;
 		}
 		if (lst->down)
-		{
 			lst = lst->down;
-			y++;
-		}
 		else
 			break ;
 	}
-	mlx_put_image_to_window(mlx_list->ptr, mlx_list->win, img_ptr, 0, 0);
+	mlx_put_image_to_window(data->mlx->ptr, data->mlx->win, data->mlx->img, 0, 0);
+}
+
+void	draw_map(t_fdf *lst, t_mlx *mlx_list, double *min_max, t_data *data)
+{
+	int		x;
+	int		y_mid;
+	int		x_mid;
+
+	fdf_lst_begin(&lst);
+	data->mlx->img = mlx_new_image(mlx_list->ptr, WIDTH, HIEGHT);
+	if (!(data->data_addr = mlx_get_data_addr(data->mlx->img, &data->bpp, &data->size_line, &data->ed)))
+	{
+		free_fdf_lst(&lst);
+		ft_putstr_err("ERROR [creating new image]{mlx_get_data_addr}");
+	}
+	y_mid = HIEGHT / 2 - (int)(min_max[3] + min_max[1]) / 2;
+	x_mid = WIDTH / 2 - (int)(min_max[2] + min_max[0]) / 2;
+	while (lst)
+	{
+		x = 0;
+		while (x < lst->max_line)
+		{
+			if (x + 1 < lst->max_line)
+				ft_mlx_line(data->data_addr, lst->coords[x][0] + x_mid,
+										lst->coords[x][1] + y_mid,
+										lst->coords[x + 1][0] + x_mid,
+										lst->coords[x + 1][1] + y_mid,
+										data->size_line,
+										data->bpp);
+			if (lst->up)
+				ft_mlx_line(data->data_addr, lst->coords[x][0] + x_mid,
+										lst->coords[x][1] + y_mid,
+										lst->up->coords[x][0] + x_mid,
+										lst->up->coords[x][1] + y_mid,
+										data->size_line,
+										data->bpp);
+			x++;
+		}
+		if (lst->down)
+			lst = lst->down;
+		else
+			break ;
+	}
+	mlx_put_image_to_window(mlx_list->ptr, mlx_list->win, data->mlx->img, 0, 0);
 }
 
 /*

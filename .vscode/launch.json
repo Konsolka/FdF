@@ -10,7 +10,7 @@
 			"request": "launch",
 			"program": "${workspaceFolder}/fdf",
 			"args": ["42.fdf"],
-			"stopAtEntry": true,
+			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
 			"environment": [],
 			"externalConsole": false,

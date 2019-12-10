@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 12:07:18 by mburl             #+#    #+#             */
-/*   Updated: 2019/12/10 11:55:15 by mburl            ###   ########.fr       */
+/*   Updated: 2019/12/10 17:16:35 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct	s_mlx
 {
 	void	*win;
 	void	*ptr;
+	void	*img;
 }				t_mlx;
 
 typedef struct	s_vector
@@ -62,6 +63,12 @@ typedef struct	s_data
 {
 	t_mlx	*mlx;
 	t_fdf	*lst;
+	int		bpp;
+	int		size_line;
+	int		ed;
+	double	*min_max;
+	char	*data_addr;
+	int		dot;
 }				t_data;
 
 
@@ -78,12 +85,14 @@ void	ft_lst_add(t_fdf **alst, int x, int y, char **coords);
 void	free_fdf_lst(t_fdf **alst);
 void	fdf_lst_begin(t_fdf **alst);
 void	make_window(t_fdf *lst);
-void	draw_map(t_fdf *lst, t_mlx *mlx_list);
+void	draw_map(t_fdf *lst, t_mlx *mlx_list, double *min_max, t_data *data);
 int		key_parse(int key, void *param);
 void	scaling(t_fdf *lst, double scale_x, double scale_y, double scale_z);
 double	**ft_matrix_rotation(double x, char axis);
 void	preparations(t_fdf *lst);
 void	ft_free_matrix(double **m);
-
+double	*min_max(t_fdf *lst);
+double	**matrix_mul_b(double **a, double **b, int *b_data);
+void	draw_dots(t_data *data, t_fdf *lst);
 
 #endif
