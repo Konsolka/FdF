@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 17:13:49 by mburl             #+#    #+#             */
-/*   Updated: 2019/12/05 15:35:55 by mburl            ###   ########.fr       */
+/*   Updated: 2019/12/10 12:04:56 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,9 +123,9 @@ void	make_window(t_fdf *lst)
 
 	// min_max_d = min_max(lst);
 	// scaling(lst, WIDTH / (min_max_d[2] - min_max_d[0]), WIDTH / (min_max_d[2] - min_max_d[0]), WIDTH / (min_max_d[2] - min_max_d[0]));
-	scaling(lst, 50, 50, 50);
+	scaling(lst, 20, 20, 20);
 	mlx_ptr = mlx_init();
-	mlx_win = mlx_new_window(mlx_ptr, HIEGHT, WIDTH, "FdF");
+	mlx_win = mlx_new_window(mlx_ptr, WIDTH, HIEGHT, "FdF");
 	mlx_list = (t_mlx *)malloc(sizeof(t_mlx));
 	mlx_list->ptr = mlx_ptr;
 	mlx_list->win = mlx_win;
@@ -135,7 +135,7 @@ void	make_window(t_fdf *lst)
 	data->mlx = mlx_list;
 	draw_map(lst, mlx_list);
 	////
-	// mlx_mouse_hook(mlx_win, scale_obj, data);
+	mlx_mouse_hook(mlx_win, scale_obj, data);
 	mlx_key_hook(mlx_win, key_parse, data);
 	mlx_loop(mlx_ptr);
 }

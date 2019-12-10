@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 12:07:18 by mburl             #+#    #+#             */
-/*   Updated: 2019/12/05 15:17:19 by mburl            ###   ########.fr       */
+/*   Updated: 2019/12/10 11:55:15 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 # include "libft.h"
 # include "mlx.h"
 # include "get_next_line.h"
-# define HIEGHT 1280
-# define WIDTH 720
+# define HIEGHT 720
+# define WIDTH 1280
 # define FOV 90
 # define F_NEAR 0.1
 # define F_FAR 100.0
