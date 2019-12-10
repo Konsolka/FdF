@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 12:07:18 by mburl             #+#    #+#             */
-/*   Updated: 2019/12/10 17:16:35 by mburl            ###   ########.fr       */
+/*   Updated: 2019/12/10 17:32:25 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,5 +94,6 @@ void	ft_free_matrix(double **m);
 double	*min_max(t_fdf *lst);
 double	**matrix_mul_b(double **a, double **b, int *b_data);
 void	draw_dots(t_data *data, t_fdf *lst);
+void	rotate_global(double *coords, double **rotate_matrix);
 
 #endif

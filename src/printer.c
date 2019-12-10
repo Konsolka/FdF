@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 17:13:49 by mburl             #+#    #+#             */
-/*   Updated: 2019/12/10 17:17:42 by mburl            ###   ########.fr       */
+/*   Updated: 2019/12/10 17:57:32 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int		scale_obj(int button, int x, int y, void *param)
 	
 	data = (t_data *)param;
 	lst = data->lst;
-	//  window must be cleaned
 	if (button == 4)
 		scaling(lst, 1.2, 1.2, 1.2);
 	if (button == 5)
@@ -60,32 +59,27 @@ void	move(t_fdf *lst, double d, int vert)
 	}
 }
 
-// void	rotate(char x, double angle, t_fdf *lst)
-// {
-// 	int		temp[2];
+void	rotate(char x, double angle, t_fdf *lst)
+{
+	double	**matrix;
+	int		i;
 
-// 	temp[0] = 4;
-// 	temp[1] = 1;
-// 	ft_lst_begin(&lst);
-// 	while (lst)
-// 	{
-// 		lst->coords = matrix_mul(f_matrix_b(angle), lst->coords, temp);
-// 		if (!lst->next)
-// 		{
-// 			if (lst->down)
-// 			{
-// 				while (lst->prev)
-// 					lst = lst->prev;
-// 				lst = lst->down;
-// 			}
-// 			else
-// 				break ;
-// 		}
-// 		else
-// 			lst = lst->next;
-// 	}
-// 	(void)x;
-// }
+	matrix = ft_matrix_rotation(angle, x);
+	fdf_lst_begin(&lst);
+	while (lst)
+	{
+		i = 0;
+		while (i < lst->max_line)
+		{
+			rotate_global(lst->coords[i], matrix);
+			i++;
+		}
+		if (lst->down)
+			lst = lst->down;
+		else
+			break ;
+	}
+}
 // down:125 up: 126 left:123 right" 124
 
 int		mlx_close(t_data *data)
@@ -93,6 +87,7 @@ int		mlx_close(t_data *data)
 	mlx_destroy_image(data->mlx->ptr, data->mlx->img);
 	mlx_destroy_window(data->mlx->ptr, data->mlx->win);
 	free_fdf_lst(&data->lst);
+	free(data->min_max);
 	free(data->mlx);
 	free(data);
 	exit(0);
@@ -114,6 +109,8 @@ int		key_parse(int key, void *param)
 		move(data->lst, 5, 0);
 	else if (key == 53)
 		mlx_close(data);
+	// else if (key == 0)
+	// 	rotate('y', 0.1, data->lst);
 	if (key == 5 || data->dot)
 	{
 		if (key == 5 && data->dot)
@@ -145,7 +142,9 @@ void	make_window(t_fdf *lst)
 		scaling(lst, HIEGHT / (data->min_max[3] - data->min_max[1]), HIEGHT / (data->min_max[3] - data->min_max[1]), 20);
 	else
 		scaling(lst, WIDTH / data->min_max[2], WIDTH / data->min_max[2], 20);
+	free(data->min_max);
 	data->min_max = min_max(lst);
+	data->dot = 0;
 	int f;
 
 	f = 0;

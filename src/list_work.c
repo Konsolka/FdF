@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 15:18:18 by mburl             #+#    #+#             */
-/*   Updated: 2019/12/10 13:10:28 by mburl            ###   ########.fr       */
+/*   Updated: 2019/12/10 17:34:51 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	free_fdf_lst(t_fdf **alst)
 		lst->up = NULL;
 	}
 }
+
 void	ft_lst_add(t_fdf **alst, int x, int y, char **coords)
 {
 	t_fdf	*new;
