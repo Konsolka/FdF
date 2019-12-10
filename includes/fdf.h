@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 12:07:18 by mburl             #+#    #+#             */
-/*   Updated: 2019/12/10 17:32:25 by mburl            ###   ########.fr       */
+/*   Updated: 2019/12/10 19:09:10 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,11 @@
 # define FOV 90
 # define F_NEAR 0.1
 # define F_FAR 100.0
+
+
+# define WHITE 0xFFFFFF
+# define GREEN 0x00FF00
+# define BROWN 0x2A2AA5
 
 typedef struct		s_fdf // coords xyz [xyz, xyz], up, down
 {
@@ -69,6 +74,8 @@ typedef struct	s_data
 	double	*min_max;
 	char	*data_addr;
 	int		dot;
+	int		x_mid;
+	int		y_mid;
 }				t_data;
 
 

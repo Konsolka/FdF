@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 15:18:18 by mburl             #+#    #+#             */
-/*   Updated: 2019/12/10 17:34:51 by mburl            ###   ########.fr       */
+/*   Updated: 2019/12/10 18:45:11 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,13 @@ void	ft_lst_add(t_fdf **alst, int x, int y, char **coords)
 	while (i < x)
 	{
 		z = ft_atoi(coords[i]);
-		new->coords[i] = (double *)malloc(sizeof(double) * 3);
+		new->coords[i] = (double *)malloc(sizeof(double) * 4);
 		new->coords[i][0] = i; 
 		new->coords[i][1] = y;
 		new->coords[i][2] = z;
+		new->coords[i][3] = 0;
+		if (z > 0)
+			new->coords[i][3] = 1;
 		i++;
 	}
 	new->down = NULL;
