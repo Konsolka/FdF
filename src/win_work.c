@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printer.c                                          :+:      :+:    :+:   */
+/*   win_work.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 17:13:49 by mburl             #+#    #+#             */
-/*   Updated: 2019/12/11 13:06:07 by mburl            ###   ########.fr       */
+/*   Updated: 2019/12/11 17:34:43 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,54 +14,12 @@
 #include <math.h>
 #include <unistd.h>
 
-int		scale_obj(int button, int x, int y, void *param)
-{
-	t_data	*data;
-	t_fdf	*lst;
-
-	data = (t_data *)param;
-	lst = data->lst;
-	if (button == 4)
-		scaling(lst, 1.2, 1.2, 1.2);
-	if (button == 5)
-		scaling(lst, 0.8, 0.8, 0.8);
-	mlx_clear_window(data->mlx->ptr, data->mlx->win);
-	if (data->dot)
-		draw_dots(data, data->lst);
-	else
-		draw_map(lst, data->mlx, data);
-	(void)x;
-	(void)y;
-	return (0);
-}
-
-void	move(t_fdf *lst, double d, int vert)
-{
-	int		i;
-
-	fdf_lst_begin(&lst);
-	while (lst)
-	{
-		i = 0;
-		while (i < lst->max_line)
-		{
-			lst->coords[i][0] += (vert == 1 ? 0 : d);
-			lst->coords[i][1] += (vert == 1 ? d : 0);
-			i++;
-		}
-		if (lst->down)
-			lst = lst->down;
-		else
-			break ;
-	}
-}
-
 /*
 **	destrying image & window
 **	freeing all data
 */
 
-int		mlx_close(t_data *data)
+int			mlx_close(t_data *data)
 {
 	mlx_destroy_image(data->mlx->ptr, data->mlx->img);
 	mlx_destroy_window(data->mlx->ptr, data->mlx->win);
@@ -83,7 +41,7 @@ int		mlx_close(t_data *data)
 **	5		G
 */
 
-int		key_parse(int key, void *param)
+int			key_parse(int key, void *param)
 {
 	t_data	*data;
 
@@ -92,7 +50,6 @@ int		key_parse(int key, void *param)
 		move(data->lst, (key == 126) ? -MOVE : MOVE, 1);
 	else if (key == 123 || key == 124)
 		move(data->lst, (key == 123) ? -MOVE : MOVE, 0);
-	// else if (key == 0)
 	else if (key == 53)
 		mlx_close(data);
 	mlx_destroy_image(data->mlx->ptr, data->mlx->img);
@@ -113,13 +70,11 @@ int		key_parse(int key, void *param)
 }
 
 /*
-**	initializating window
-**	creating struct data and putting there all data
-**	scaling obj to size of the screen
-**	moving obj to the center
+**	data initialization
+**	see fdf.h
 */
 
-void	make_window(t_fdf *lst)
+t_data		*init_data(t_fdf *lst)
 {
 	t_data	*data;
 
@@ -129,6 +84,22 @@ void	make_window(t_fdf *lst)
 	data->mlx->win = mlx_new_window(data->mlx->ptr, WIDTH, HIEGHT, "FdF");
 	data->lst = lst;
 	data->min_max = min_max(lst);
+	data->dot = 0;
+	return (data);
+}
+
+/*
+**	initializating window
+**	creating struct data and putting there all data
+**	scaling obj to size of the screen
+**	moving obj to the center
+*/
+
+void		make_window(t_fdf *lst)
+{
+	t_data	*data;
+
+	data = init_data(lst);
 	if (data->min_max[2] * HIEGHT /
 			(data->min_max[3] - data->min_max[1]) < WIDTH)
 		scaling(lst, HIEGHT / (data->min_max[3] - data->min_max[1]),
@@ -141,9 +112,9 @@ void	make_window(t_fdf *lst)
 	data->min_max = min_max(lst);
 	move(lst, -data->min_max[2] / 2, 0);
 	move(lst, -(data->min_max[3] + data->min_max[1]) / 2, 1);
-	data->dot = 0;
 	draw_map(lst, data->mlx, data);
 	mlx_mouse_hook(data->mlx->win, scale_obj, data);
 	mlx_hook(data->mlx->win, 2, 0L, key_parse, data);
+	mlx_hook(data->mlx->win, 17, 0L, mlx_close, data);
 	mlx_loop(data->mlx->ptr);
 }

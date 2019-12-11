@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 12:07:18 by mburl             #+#    #+#             */
-/*   Updated: 2019/12/11 14:05:54 by mburl            ###   ########.fr       */
+/*   Updated: 2019/12/11 17:41:25 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,25 +44,24 @@ typedef struct		s_fdf
 **	storing win, ptr, image
 */
 
-typedef struct	s_mlx
+typedef struct		s_mlx
 {
 	void	*win;
 	void	*ptr;
 	void	*img;
-}				t_mlx;
+}					t_mlx;
 
 /*
 **	point x, y, z
 */
 
-typedef struct	s_vector
+typedef struct		s_vector
 {
 	double		x;
 	double		y;
 	double		z;
 	double		w;
-}				t_vector;
-
+}					t_vector;
 
 /*
 **	storing all stuff that will be needed
@@ -70,10 +69,10 @@ typedef struct	s_vector
 **	ed - endian (using in mlx_get_data_addr)
 **	x_mid - x axes middle of obj
 **	y_mid - y axes middle of obj
-**	dot - 
+**	dot - needs dot mode or not (1 or 0)
 */
 
-typedef struct	s_data
+typedef struct		s_data
 {
 	t_mlx	*mlx;
 	t_fdf	*lst;
@@ -85,9 +84,9 @@ typedef struct	s_data
 	int		dot;
 	int		x_mid;
 	int		y_mid;
-}				t_data;
+}					t_data;
 
-typedef struct	s_line
+typedef struct		s_line
 {
 	int		deltx;
 	int		delty;
@@ -99,30 +98,34 @@ typedef struct	s_line
 	int		x2;
 	int		y2;
 
-}				t_line;
+}					t_line;
 
-typedef struct	s_i
+typedef struct		s_i
 {
 	int		x;
 	int		y;
 	int		z;
-}				t_i;
+}					t_i;
 
-void	ft_lst_add(t_fdf **alst, int x, int y, char **coords);
-void	free_fdf_lst(t_fdf **alst);
-void	fdf_lst_begin(t_fdf **alst);
-void	make_window(t_fdf *lst);
-void	draw_map(t_fdf *lst, t_mlx *mlx_list, t_data *data);
-int		key_parse(int key, void *param);
-void	scaling(t_fdf *lst, double scale_x, double scale_y, double scale_z);
-double	**ft_matrix_rotation(double x, char axis);
-void	preparations(t_fdf *lst);
-void	ft_free_matrix(double **m);
-double	*min_max(t_fdf *lst);
-double	**matrix_mul_b(double **a, double **b, int *b_data);
-void	draw_dots(t_data *data, t_fdf *lst);
-void	rotate_global(double *coords, double **rotate_matrix);
-void	move(t_fdf *lst, double d, int vert);
-void	ft_mlx_line(t_data *data, double *first, double *second);
+void				ft_lst_add(t_fdf **alst, int x, int y, char **coords);
+void				free_fdf_lst(t_fdf **alst);
+void				fdf_lst_begin(t_fdf **alst);
+void				make_window(t_fdf *lst);
+void				draw_map(t_fdf *lst, t_mlx *mlx_list, t_data *data);
+int					key_parse(int key, void *param);
+double				**ft_matrix_rotation(double x, char axis);
+void				preparations(t_fdf *lst);
+void				ft_free_matrix(double **m);
+double				*min_max(t_fdf *lst);
+double				**matrix_mul_b(double **a, double **b, int *b_data);
+void				draw_dots(t_data *data, t_fdf *lst);
+void				rotate_global(double *coords, double **rotate_matrix);
+void				move(t_fdf *lst, double d, int vert);
+void				ft_mlx_line(t_data *data, double *first, double *second);
+int					scale_obj(int button, int x, int y, void *param);
+void				rotate_global(double *coords, double **rotate_matrix);
+void				scaling(t_fdf *lst, double scale_x,
+							double scale_y, double scale_z);
+void				matrix_mul(double **rotate_matrix, t_vector *vec);
 
 #endif

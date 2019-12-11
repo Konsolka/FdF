@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 19:29:20 by mburl             #+#    #+#             */
-/*   Updated: 2019/12/11 12:53:41 by mburl            ###   ########.fr       */
+/*   Updated: 2019/12/11 17:36:51 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,19 +68,6 @@ void			matrix_mul(double **rotate_matrix, t_vector *vec)
 				rotate_matrix[1][2] * vec->z;
 	vec->z = rotate_matrix[2][0] * vec->x + rotate_matrix[2][1] * vec->y +
 				rotate_matrix[2][2] * vec->z;
-}
-
-void			rotate_global(double *coords, double **rotate_matrix)
-{
-	t_vector	vec;
-
-	vec.x = coords[0];
-	vec.y = coords[1];
-	vec.z = coords[2];
-	matrix_mul(rotate_matrix, &vec);
-	coords[0] = vec.x;
-	coords[1] = vec.y;
-	coords[2] = vec.z;
 }
 
 void			preparations(t_fdf *lst)

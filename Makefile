@@ -6,15 +6,15 @@
 #    By: mburl <mburl@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/18 10:24:14 by mburl             #+#    #+#              #
-#    Updated: 2019/12/11 14:13:25 by mburl            ###   ########.fr        #
+#    Updated: 2019/12/11 17:34:18 by mburl            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= fdf
 
 # src / obj files
-SRC		= main.c list_work.c printer.c drawing.c math.c new_matrix.c matrix.c \
-		line.c
+SRC		= main.c list_work.c win_work.c drawing.c math.c new_matrix.c matrix.c \
+		line.c obj_transform.c
 
 OBJ		= $(addprefix $(OBJDIR),$(SRC:.c=.o))
 
