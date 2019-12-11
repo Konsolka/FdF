@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 12:07:18 by mburl             #+#    #+#             */
-/*   Updated: 2019/12/10 19:09:10 by mburl            ###   ########.fr       */
+/*   Updated: 2019/12/11 12:00:14 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,7 @@
 # include "get_next_line.h"
 # define HIEGHT 720
 # define WIDTH 1280
-# define FOV 90
-# define F_NEAR 0.1
-# define F_FAR 100.0
-
-
-# define WHITE 0xFFFFFF
-# define GREEN 0x00FF00
-# define BROWN 0x2A2AA5
+# define MOVE 10
 
 typedef struct		s_fdf // coords xyz [xyz, xyz], up, down
 {
@@ -102,5 +95,6 @@ double	*min_max(t_fdf *lst);
 double	**matrix_mul_b(double **a, double **b, int *b_data);
 void	draw_dots(t_data *data, t_fdf *lst);
 void	rotate_global(double *coords, double **rotate_matrix);
+void	move(t_fdf *lst, double d, int vert);
 
 #endif

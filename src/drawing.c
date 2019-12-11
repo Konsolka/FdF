@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 16:15:24 by mburl             #+#    #+#             */
-/*   Updated: 2019/12/10 19:53:15 by mburl            ###   ########.fr       */
+/*   Updated: 2019/12/11 11:23:50 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,24 +55,13 @@ void	ft_mlx_line(t_data *data, double *first, double *second)
 	while (x1 != x2 || y1 != y2)
 	{
 		double error2 = error * 2;
-		if (x1 < 0 || y1 < 0 || x1 >= WIDTH || y1 >= HIEGHT)
+		if (!(x1 < 0 || y1 < 0 || x1 >= WIDTH || y1 >= HIEGHT))
 		{
-			if (error2 > -delty)
-			{
-				error -= delty;
-				x1 += signx;
-			}
-			if (error2 < deltx)
-			{
-				error += deltx;
-				y1 += signy;
-			}
-			continue ;
+			i = (x1 * data->bpp / 8) + (y1 * data->size_line);
+			data->data_addr[i] = color;
+			data->data_addr[++i] = color >> 8;
+			data->data_addr[++i] = color >> 16;
 		}
-		i = (x1 * data->bpp / 8) + (y1 * data->size_line);
-		data->data_addr[i] = color;
-		data->data_addr[++i] = color >> 8;
-		data->data_addr[++i] = color >> 16;
 		if (error2 > -delty)
 		{
 			error -= delty;
@@ -103,8 +92,8 @@ void	draw_dots(t_data *data, t_fdf *lst)
 		while (iter < lst->max_line)
 		{
 		color = 0x00FF00;
-			y = lst->coords[iter][1] + HIEGHT / 2 - (int)(data->min_max[3] + data->min_max[1]) / 2;
-			x = lst->coords[iter][0] + WIDTH / 2 - (int)(data->min_max[2] + data->min_max[0]) / 2;
+			y = lst->coords[iter][1] + HIEGHT / 2;
+			x = lst->coords[iter][0] + WIDTH / 2;
 			if (x < 0 || x >= WIDTH || y < 0 || y >= HIEGHT)
 			{
 				iter++;
@@ -137,8 +126,8 @@ void	draw_map(t_fdf *lst, t_mlx *mlx_list, double *min_max, t_data *data)
 		free_fdf_lst(&lst);
 		ft_putstr_err("ERROR [creating new image]{mlx_get_data_addr}");
 	}
-	data->y_mid = HIEGHT / 2 - (int)(min_max[3] + min_max[1]) / 2;
-	data->x_mid = WIDTH / 2 - (int)(min_max[2] + min_max[0]) / 2;
+	data->y_mid = HIEGHT / 2;
+	data->x_mid = WIDTH / 2;
 	while (lst)
 	{
 		x = 0;

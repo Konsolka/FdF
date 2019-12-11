@@ -6,7 +6,7 @@
 #    By: mburl <mburl@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/18 10:24:14 by mburl             #+#    #+#              #
-#    Updated: 2019/12/10 15:58:10 by mburl            ###   ########.fr        #
+#    Updated: 2019/12/11 10:58:22 by mburl            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,6 @@ CFLAGS	= -Wall -Wextra -g
 
 # mlx library
 MLX		= ./miniLibX/
-MLX_LIB	= $(addprefix $(MLX),mlx.a)
 MLX_INC	= -I ./miniLibX
 MLX_LNK	= -L ./miniLibX -l mlx -framework OpenGL -framework AppKit
 
@@ -49,16 +48,12 @@ $(OBJDIR)%.o:$(SRCDIR)%.c
 $(FT_LIB):
 	make -C $(FT)
 
-$(MLX_LIB):
-	make -C $(MLX)
-
 $(NAME): $(OBJ)
 	$(CC) -g $(OBJ) $(MLX_LNK) $(FT_LNK) -lm -o $(NAME)
 
 clean:
 	rm -rf $(OBJDIR)
 	make -C $(FT) clean
-	make -C $(MLX) clean
 
 fclean: clean
 	rm -rf $(NAME)
