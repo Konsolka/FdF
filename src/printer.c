@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 17:13:49 by mburl             #+#    #+#             */
-/*   Updated: 2019/12/11 12:04:46 by mburl            ###   ########.fr       */
+/*   Updated: 2019/12/11 13:06:07 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int		scale_obj(int button, int x, int y, void *param)
 	if (data->dot)
 		draw_dots(data, data->lst);
 	else
-		draw_map(lst, data->mlx, data->min_max, data);
+		draw_map(lst, data->mlx, data);
 	(void)x;
 	(void)y;
 	return (0);
@@ -92,6 +92,7 @@ int		key_parse(int key, void *param)
 		move(data->lst, (key == 126) ? -MOVE : MOVE, 1);
 	else if (key == 123 || key == 124)
 		move(data->lst, (key == 123) ? -MOVE : MOVE, 0);
+	// else if (key == 0)
 	else if (key == 53)
 		mlx_close(data);
 	mlx_destroy_image(data->mlx->ptr, data->mlx->img);
@@ -107,7 +108,7 @@ int		key_parse(int key, void *param)
 			return (1);
 		}
 	}
-	draw_map(data->lst, data->mlx, data->min_max, data);
+	draw_map(data->lst, data->mlx, data);
 	return (1);
 }
 
@@ -131,15 +132,17 @@ void	make_window(t_fdf *lst)
 	if (data->min_max[2] * HIEGHT /
 			(data->min_max[3] - data->min_max[1]) < WIDTH)
 		scaling(lst, HIEGHT / (data->min_max[3] - data->min_max[1]),
-				HIEGHT / (data->min_max[3] - data->min_max[1]), 20);
+				HIEGHT / (data->min_max[3] - data->min_max[1]),
+				HIEGHT / (data->min_max[3] - data->min_max[1]));
 	else
-		scaling(lst, WIDTH / data->min_max[2], WIDTH / data->min_max[2], 20);
+		scaling(lst, WIDTH / data->min_max[2], WIDTH / data->min_max[2],
+					WIDTH / data->min_max[2]);
 	free(data->min_max);
 	data->min_max = min_max(lst);
 	move(lst, -data->min_max[2] / 2, 0);
 	move(lst, -(data->min_max[3] + data->min_max[1]) / 2, 1);
 	data->dot = 0;
-	draw_map(lst, data->mlx, data->min_max, data);
+	draw_map(lst, data->mlx, data);
 	mlx_mouse_hook(data->mlx->win, scale_obj, data);
 	mlx_hook(data->mlx->win, 2, 0L, key_parse, data);
 	mlx_loop(data->mlx->ptr);

@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 12:07:18 by mburl             #+#    #+#             */
-/*   Updated: 2019/12/11 12:00:14 by mburl            ###   ########.fr       */
+/*   Updated: 2019/12/11 14:05:54 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,11 @@
 # define WIDTH 1280
 # define MOVE 10
 
-typedef struct		s_fdf // coords xyz [xyz, xyz], up, down
+/*
+**	coords xyz [xyz, xyz], up, down
+*/
+
+typedef struct		s_fdf
 {
 	double			**coords;
 	int				max_line;
@@ -36,11 +40,9 @@ typedef struct		s_fdf // coords xyz [xyz, xyz], up, down
 
 }					t_fdf;
 
-typedef struct	s_map
-{
-	float		max_x;
-	float		max_y;
-}				t_map;
+/*
+**	storing win, ptr, image
+*/
 
 typedef struct	s_mlx
 {
@@ -49,6 +51,10 @@ typedef struct	s_mlx
 	void	*img;
 }				t_mlx;
 
+/*
+**	point x, y, z
+*/
+
 typedef struct	s_vector
 {
 	double		x;
@@ -56,6 +62,16 @@ typedef struct	s_vector
 	double		z;
 	double		w;
 }				t_vector;
+
+
+/*
+**	storing all stuff that will be needed
+**	bpp - bits per pixel (using in mlx_get_data_addr)
+**	ed - endian (using in mlx_get_data_addr)
+**	x_mid - x axes middle of obj
+**	y_mid - y axes middle of obj
+**	dot - 
+*/
 
 typedef struct	s_data
 {
@@ -71,8 +87,19 @@ typedef struct	s_data
 	int		y_mid;
 }				t_data;
 
+typedef struct	s_line
+{
+	int		deltx;
+	int		delty;
+	int		signx;
+	int		signy;
+	int		error;
+	int		x1;
+	int		y1;
+	int		x2;
+	int		y2;
 
-
+}				t_line;
 
 typedef struct	s_i
 {
@@ -85,7 +112,7 @@ void	ft_lst_add(t_fdf **alst, int x, int y, char **coords);
 void	free_fdf_lst(t_fdf **alst);
 void	fdf_lst_begin(t_fdf **alst);
 void	make_window(t_fdf *lst);
-void	draw_map(t_fdf *lst, t_mlx *mlx_list, double *min_max, t_data *data);
+void	draw_map(t_fdf *lst, t_mlx *mlx_list, t_data *data);
 int		key_parse(int key, void *param);
 void	scaling(t_fdf *lst, double scale_x, double scale_y, double scale_z);
 double	**ft_matrix_rotation(double x, char axis);
@@ -96,5 +123,6 @@ double	**matrix_mul_b(double **a, double **b, int *b_data);
 void	draw_dots(t_data *data, t_fdf *lst);
 void	rotate_global(double *coords, double **rotate_matrix);
 void	move(t_fdf *lst, double d, int vert);
+void	ft_mlx_line(t_data *data, double *first, double *second);
 
 #endif

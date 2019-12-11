@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 13:19:36 by mburl             #+#    #+#             */
-/*   Updated: 2019/12/10 15:58:32 by mburl            ###   ########.fr       */
+/*   Updated: 2019/12/11 12:40:12 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,11 @@
 
 /*
 **	b_data  = [i, j] where i is rows j is column
+**	multiplying matrix a * b matrix can be all types 1x2, 3x4
+**	but should be valid
+**	not valid matrix wouldn't multyplied
 */
+
 double	**matrix_mul_b(double **a, double **b, int *b_data)
 {
 	int		i;

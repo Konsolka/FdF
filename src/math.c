@@ -6,30 +6,17 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 19:29:20 by mburl             #+#    #+#             */
-/*   Updated: 2019/12/10 16:16:52 by mburl            ###   ########.fr       */
+/*   Updated: 2019/12/11 12:53:41 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include <math.h>
 
-/*
-**	0 - min x
-**	1 - min y
-**	2 - max x
-**	3 - max y
-*/
-double	*min_max(t_fdf *lst)
+static void		compare_coords(t_fdf *lst, double *arr)
 {
-	double	*arr;
-	int		i;
+	int i;
 
-	arr = (double *)malloc(sizeof(double) * 4);
-	fdf_lst_begin(&lst);
-	arr[0] = 0.0;
-	arr[1] = 0.0;
-	arr[2] = 0.0;
-	arr[3] = 0.0;
 	while (lst)
 	{
 		i = 0;
@@ -50,10 +37,30 @@ double	*min_max(t_fdf *lst)
 		else
 			break ;
 	}
+}
+
+/*
+**	0 - min x
+**	1 - min y
+**	2 - max x
+**	3 - max y
+*/
+
+double			*min_max(t_fdf *lst)
+{
+	double	*arr;
+
+	arr = (double *)malloc(sizeof(double) * 4);
+	fdf_lst_begin(&lst);
+	arr[0] = 0.0;
+	arr[1] = 0.0;
+	arr[2] = 0.0;
+	arr[3] = 0.0;
+	compare_coords(lst, arr);
 	return (arr);
 }
 
-void		matrix_mul(double **rotate_matrix, t_vector *vec)
+void			matrix_mul(double **rotate_matrix, t_vector *vec)
 {
 	vec->x = rotate_matrix[0][0] * vec->x + rotate_matrix[0][1] * vec->y +
 				rotate_matrix[0][2] * vec->z;
@@ -63,7 +70,7 @@ void		matrix_mul(double **rotate_matrix, t_vector *vec)
 				rotate_matrix[2][2] * vec->z;
 }
 
-void	rotate_global(double *coords, double **rotate_matrix)
+void			rotate_global(double *coords, double **rotate_matrix)
 {
 	t_vector	vec;
 
@@ -76,9 +83,9 @@ void	rotate_global(double *coords, double **rotate_matrix)
 	coords[2] = vec.z;
 }
 
-void	preparations(t_fdf *lst)
+void			preparations(t_fdf *lst)
 {
-	int i;
+	int		i;
 	double	**matrix_z;
 	double	**matrix_x;
 
