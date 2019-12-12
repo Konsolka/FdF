@@ -2,7 +2,13 @@
 2. man /usr/share/man/man3/* or ./miniLibX/man/man3/*
 3. https://en.wikipedia.org/wiki/3D_projection
 
-# BONUS
+
+# Usage :
+
+./fdf file_name
+
+
+## Bonus
 1. Moving in x and y axis
 2. Dot interpritation
 3. If there is a letter instead of value map will be valid and z = 0
