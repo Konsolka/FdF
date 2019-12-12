@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 11:07:21 by mburl             #+#    #+#             */
-/*   Updated: 2019/12/12 15:58:55 by mburl            ###   ########.fr       */
+/*   Updated: 2019/12/12 16:00:49 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void		read_file(int fd, t_fdf **lst)
 	int		i;
 
 	if (fd < 0)
-		ft_putstr_err("Invalid file\n");
+		ft_putstr_err("fdf: a: No such file\n");
 	line = NULL;
 	y = 0;
 	while (get_next_line(fd, &line))
