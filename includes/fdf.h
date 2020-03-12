@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 12:07:18 by mburl             #+#    #+#             */
-/*   Updated: 2019/12/11 17:41:25 by mburl            ###   ########.fr       */
+/*   Updated: 2020/03/12 11:32:02 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@
 
 typedef struct		s_fdf
 {
-	double			**coords;
-	int				max_line;
-	struct s_fdf	*up;
-	struct s_fdf	*down;
+	double			x;
+	double			y;
+	double			z;
+	struct s_fdf	*next;
 
 }					t_fdf;
 
@@ -107,10 +107,8 @@ typedef struct		s_i
 	int		z;
 }					t_i;
 
-void				ft_lst_add(t_fdf **alst, int x, int y, char **coords);
 void				free_fdf_lst(t_fdf **alst);
 void				fdf_lst_begin(t_fdf **alst);
-void				make_window(t_fdf *lst);
 void				draw_map(t_fdf *lst, t_mlx *mlx_list, t_data *data);
 int					key_parse(int key, void *param);
 double				**ft_matrix_rotation(double x, char axis);
@@ -127,5 +125,13 @@ void				rotate_global(double *coords, double **rotate_matrix);
 void				scaling(t_fdf *lst, double scale_x,
 							double scale_y, double scale_z);
 void				matrix_mul(double **rotate_matrix, t_vector *vec);
+
+void				fatalError(char *str);
+t_fdf				*createNode(double x, double y, double z);
+void				printList(t_fdf *lst); //////////
+void				addNode(t_fdf **alst, t_fdf *node);
+void				makeWindow(t_fdf *lst);
+void				scaleCoords(t_fdf *lst, double scale_x,
+						double scale_y, double scale_z);
 
 #endif

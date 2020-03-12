@@ -6,7 +6,7 @@
 #    By: mburl <mburl@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/18 10:24:14 by mburl             #+#    #+#              #
-#    Updated: 2020/03/12 10:32:17 by mburl            ###   ########.fr        #
+#    Updated: 2020/03/12 11:30:54 by mburl            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME	= fdf
 
 # compiler
 CC						=	gcc
-CFLAGS					=	-Wall -Wextra -Werror
+CFLAGS					=	-Wall -Wextra
 FRAMEWORK				:=	-framework OpenGL -framework AppKit
 
 # directories
@@ -23,9 +23,9 @@ INC_DIR					=	./includes/
 OBJ_DIR					=	./obj/
 
 # src / obj files
-SRC						:=	main.c list_work.c win_work.c drawing.c
-SRC						+=	math.c new_matrix.c matrix.c line.c
-SRC						+=	obj_transform.c
+SRC						:=	main.c terminate.c list_work.c win_work.c math.c drawing.c
+# SRC						+=	 new_matrix.c matrix.c line.c
+# SRC						+=	obj_transform.c  
 OBJ						=	$(addprefix $(OBJ_DIR),$(SRC:.c=.o))
 
 # HEADERS

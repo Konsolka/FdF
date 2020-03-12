@@ -1,32 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list_work.c                                        :+:      :+:    :+:   */
+/*   terminate.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/18 15:18:18 by mburl             #+#    #+#             */
-/*   Updated: 2020/03/12 10:56:43 by mburl            ###   ########.fr       */
+/*   Created: 2020/03/12 10:33:09 by mburl             #+#    #+#             */
+/*   Updated: 2020/03/12 11:05:21 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "fdf.h"
 
-t_fdf			*createNode(double x, double y, double z)
+void		fatalError(char *str)
 {
-	t_fdf	*node;
-
-	if (!(node = (t_fdf *)malloc(sizeof(*node))))
-		fatalError("Error in allocation node");
-	node->next = NULL;
-	node->x = x;
-	node->y = y;
-	node->z = z;
-	return (node);
+	ft_putstr_err(str);
+	ft_putstr_err("\n");
+	exit(-1);
 }
 
-void			addNode(t_fdf **alst, t_fdf *node)
+void		printList(t_fdf *lst) //////////
 {
-	node->next = *alst;
-	*alst = node;
+	while (lst)
+	{
+		printf("%f\t%f\t%f\n", lst->x, lst->y, lst->z); //////     PRINTF
+		lst = lst->next;
+	}
 }
