@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 17:13:49 by mburl             #+#    #+#             */
-/*   Updated: 2020/03/12 11:31:47 by mburl            ###   ########.fr       */
+/*   Updated: 2020/03/12 11:39:48 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,15 @@
 **	freeing all data
 */
 
-// int			mlx_close(t_data *data)
-// {
-// 	mlx_destroy_image(data->mlx->ptr, data->mlx->img);
-// 	mlx_destroy_window(data->mlx->ptr, data->mlx->win);
-// 	free_fdf_lst(&data->lst);
-// 	free(data->min_max);
-// 	free(data->mlx);
-// 	free(data);
-// 	exit(0);
-// }
+int			mlx_close(t_data *data)
+{
+	mlx_destroy_image(data->mlx->ptr, data->mlx->img);
+	mlx_destroy_window(data->mlx->ptr, data->mlx->win);
+	free(data->min_max);
+	free(data->mlx);
+	free(data);
+	exit(0);
+}
 
 // /*
 // **	key	parser
@@ -108,15 +107,13 @@ void		makeWindow(t_fdf *lst)
 	else
 		scaleCoords(lst, WIDTH / data->min_max[2], WIDTH / data->min_max[2],
 					WIDTH / data->min_max[2]);
-	printList(lst);
-	exit(0);
-	// free(data->min_max);
-	// data->min_max = min_max(lst);
+	free(data->min_max);
+	data->min_max = min_max(lst);
 	// move(lst, -data->min_max[2] / 2, 0);
 	// move(lst, -(data->min_max[3] + data->min_max[1]) / 2, 1);
-	// draw_map(lst, data->mlx, data);
+	draw_map(lst, data->mlx, data);
 	// mlx_mouse_hook(data->mlx->win, scale_obj, data);
 	// mlx_hook(data->mlx->win, 2, 0L, key_parse, data);
-	// mlx_hook(data->mlx->win, 17, 0L, mlx_close, data);
-	// mlx_loop(data->mlx->ptr);
+	mlx_hook(data->mlx->win, 17, 0L, mlx_close, data);
+	mlx_loop(data->mlx->ptr);
 }

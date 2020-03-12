@@ -6,7 +6,7 @@
 #    By: mburl <mburl@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/18 10:24:14 by mburl             #+#    #+#              #
-#    Updated: 2020/03/12 11:30:54 by mburl            ###   ########.fr        #
+#    Updated: 2020/03/12 11:40:09 by mburl            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME	= fdf
 
 # compiler
 CC						=	gcc
-CFLAGS					=	-Wall -Wextra
+CFLAGS					=	-Wall -Wextra -g
 FRAMEWORK				:=	-framework OpenGL -framework AppKit
 
 # directories
