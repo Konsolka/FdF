@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 12:07:18 by mburl             #+#    #+#             */
-/*   Updated: 2020/03/12 11:32:02 by mburl            ###   ########.fr       */
+/*   Updated: 2020/03/12 12:43:04 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,12 @@ typedef struct		s_mlx
 /*
 **	point x, y, z
 */
+
+typedef struct		s_point
+{
+	float	x;
+	float	y;
+}					t_point;
 
 typedef struct		s_vector
 {

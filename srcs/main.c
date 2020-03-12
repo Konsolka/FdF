@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 11:07:21 by mburl             #+#    #+#             */
-/*   Updated: 2020/03/12 11:40:55 by mburl            ###   ########.fr       */
+/*   Updated: 2020/03/12 13:00:15 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,11 @@ t_fdf		*read_file(int fd)
 	int		i;
 
 	if (fd < 0)
-		ft_putstr_err("fdf: No such file\n");
+		fatalError("fdf: No such file");
 	lst = NULL;
 	line = NULL;
 	y = 0;
-	while (get_next_line(fd, &line))
+	while (get_next_line(fd, &line) > 0)
 	{
 		coord = ft_strsplit(line, ' ');
 		i = 0;

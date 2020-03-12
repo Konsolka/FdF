@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 17:13:49 by mburl             #+#    #+#             */
-/*   Updated: 2020/03/12 11:39:48 by mburl            ###   ########.fr       */
+/*   Updated: 2020/03/12 13:05:28 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 
 int			mlx_close(t_data *data)
 {
-	mlx_destroy_image(data->mlx->ptr, data->mlx->img);
 	mlx_destroy_window(data->mlx->ptr, data->mlx->win);
 	free(data->min_max);
 	free(data->mlx);
@@ -109,8 +108,8 @@ void		makeWindow(t_fdf *lst)
 					WIDTH / data->min_max[2]);
 	free(data->min_max);
 	data->min_max = min_max(lst);
-	// move(lst, -data->min_max[2] / 2, 0);
-	// move(lst, -(data->min_max[3] + data->min_max[1]) / 2, 1);
+	move(lst, -data->min_max[2] / 2, 0);
+	move(lst, -(data->min_max[3] + data->min_max[1]) / 2, 1);
 	draw_map(lst, data->mlx, data);
 	// mlx_mouse_hook(data->mlx->win, scale_obj, data);
 	// mlx_hook(data->mlx->win, 2, 0L, key_parse, data);

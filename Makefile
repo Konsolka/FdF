@@ -6,7 +6,7 @@
 #    By: mburl <mburl@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/18 10:24:14 by mburl             #+#    #+#              #
-#    Updated: 2020/03/12 11:40:09 by mburl            ###   ########.fr        #
+#    Updated: 2020/03/12 13:13:06 by mburl            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,8 +24,8 @@ OBJ_DIR					=	./obj/
 
 # src / obj files
 SRC						:=	main.c terminate.c list_work.c win_work.c math.c drawing.c
+SRC						+=	obj_transform.c  
 # SRC						+=	 new_matrix.c matrix.c line.c
-# SRC						+=	obj_transform.c  
 OBJ						=	$(addprefix $(OBJ_DIR),$(SRC:.c=.o))
 
 # HEADERS
@@ -48,23 +48,24 @@ LINK					:=	$(MLX_LNK) $(FT_LNK) $(FRAMEWORK)
 
 all: $(NAME)
 
-obj:
+$(OBJ_DIR):
+	@echo " - Creating dir $(OBJ_DIR)"
 	mkdir -p $(OBJ_DIR)
 
 $(OBJ_DIR)%.o:$(SRC_DIR)%.c $(HEADERS)
 	@printf " \e[1;34m- Compiling  %-21s  ->  %-21s\n\e[m" "$<" "$@"
 	$(CC) $(CFLAGS) $(INCLUDE) -o $@ -c $<
 
-$(LIBFT):
+$(FT_LIB):
 	@make -C $(LIBFT_DIRECTORY)
 
-$(NAME): $(LIBFT) $(OBJ_DIR) $(OBJ)
+$(NAME): $(FT_LIB) $(OBJ_DIR) $(OBJ)
 	$(CC) $(OBJ) $(LINK) -o $@
 
 clean:
 	@echo " - Deleting $(OBJ_DIR)"
 	@rm -rf $(OBJ_DIR)
-	make -C $(FT) clean
+	make -C $(LIBFT_DIRECTORY) clean
 
 fclean: clean
 	@echo " - Deleting $(NAME)"
