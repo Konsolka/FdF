@@ -6,15 +6,26 @@
 #    By: mburl <mburl@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/04 19:30:25 by mburl             #+#    #+#              #
-#    Updated: 2019/10/18 11:31:01 by mburl            ###   ########.fr        #
+#    Updated: 2020/03/12 10:25:17 by mburl            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+NAME	= libft.a
 
-INCLUDES = ./
-NAME = libft.a
+# headers
 
-SRCS = ft_atoi.c ft_bzero.c ft_isalnum.c ft_isalpha.c ft_isascii.c \
+HEADER_LIST		= libft.h get_next_line.h
+INCDIR			= ./includes/
+HEADERS			= $(addprefix $(INCDIR), $(HEADER_LIST))
+
+INCLUDES		= -I $(INCDIR)
+SRCSDIR	= ./srcs/
+OBJDIR	= ./obj/
+
+CC		= gcc
+CFLAGS	= -Wall -Wextra -Werror
+
+SRCS	= ft_atoi.c ft_bzero.c ft_isalnum.c ft_isalpha.c ft_isascii.c \
 	  ft_isdigit.c ft_islower.c ft_isprint.c ft_isupper.c ft_memalloc.c \
 	  ft_memccpy.c ft_memchr.c ft_memcmp.c ft_memcpy.c ft_memdel.c \
 	  ft_memmove.c ft_memset.c ft_strcat.c ft_strchr.c ft_strclr.c \
@@ -27,22 +38,33 @@ SRCS = ft_atoi.c ft_bzero.c ft_isalnum.c ft_isalpha.c ft_isascii.c \
 	  ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c ft_lstnew.c \
 	  ft_lstdelone.c ft_lstdel.c ft_lstadd.c ft_lstiter.c ft_lstmap.c \
 	  ft_strsplit.c ft_strnch.c ft_intlen.c ft_countwords.c ft_chrcmp.c \
-	  ft_putstr_err.c ft_lstcount.c ft_lstrev.c get_next_line.c
+	  ft_putstr_err.c ft_lstcount.c ft_lstrev.c get_next_line.c ft_pow.c \
+	  ft_strtab_free.c ft_strmerge.c
 
-OBJJ = $(SRCS:.c=.o)
+OBJ		= $(addprefix $(OBJDIR),$(SRCS:.c=.o))
 
+# color
+WAVE	:= "\033[36m"
+EOC		:= "\033[0m"
+GREEN	:= "\033[32m"
 
-.PHONY: all clean fclean re
+all: obj $(NAME) $(HEADERS)
 
-all: $(NAME)
+obj:
+	@echo " - Creating dir $(OBJDIR)"
+	@mkdir -p $(OBJDIR)
 
-$(NAME): $(SRCS) libft.h
-	@gcc -Wall -Wextra -Werror -I$(INCLUDES) -c $(SRCS)
-	@ar rc $(NAME) $(OBJJ)
+$(OBJDIR)%.o:$(SRCSDIR)%.c $(HEADERS)
+	@printf " \e[1;34m- Compiling  %-21s  ->  %-21s\n\e[m" "$<" "$@"
+	@$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $<
+
+$(NAME): $(OBJ)
+	@echo $(GREEN) " - Running $@" $(EOC)
+	@ar rc $(NAME) $(OBJ)
 	@ranlib $(NAME)
 
 clean:
-	@/bin/rm -f $(OBJJ)
+	@rm -rf $(OBJDIR)
 
 fclean: clean
 	@/bin/rm -f $(NAME)

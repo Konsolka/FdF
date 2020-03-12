@@ -6,62 +6,70 @@
 #    By: mburl <mburl@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/18 10:24:14 by mburl             #+#    #+#              #
-#    Updated: 2019/11/13 19:42:17 by mburl            ###   ########.fr        #
+#    Updated: 2020/03/12 10:32:17 by mburl            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= fdf
 
-# src / obj files
-SRC		= main.c list_work.c matrix.c printer.c math.c drawing.c
-
-OBJ		= $(addprefix $(OBJDIR),$(SRC:.c=.o))
-
 # compiler
-CC		= gcc
-CFLAGS	= -Wall -Wextra -Werror -g
-
-# mlx library
-MLX		= ./miniLibX/
-MLX_LIB	= $(addprefix $(MLX),mlx.a)
-MLX_INC	= -I ./miniLibX
-MLX_LNK	= -L ./miniLibX -l mlx -framework OpenGL -framework AppKit
-
-# ft library
-FT		= ./libft/
-FT_LIB	= $(addprefix $(FT),libft.a)
-FT_INC	= -I ./libft
-FT_LNK	= -L ./libft -l ft
+CC						=	gcc
+CFLAGS					=	-Wall -Wextra -Werror
+FRAMEWORK				:=	-framework OpenGL -framework AppKit
 
 # directories
-SRCDIR	= ./src/
-INCDIR	= ./includes/
-OBJDIR	= ./obj/
+SRC_DIR					=	./srcs/
+INC_DIR					=	./includes/
+OBJ_DIR					=	./obj/
 
-all: obj $(FT_LIB) $(MLX_LIB) $(NAME)
+# src / obj files
+SRC						:=	main.c list_work.c win_work.c drawing.c
+SRC						+=	math.c new_matrix.c matrix.c line.c
+SRC						+=	obj_transform.c
+OBJ						=	$(addprefix $(OBJ_DIR),$(SRC:.c=.o))
+
+# HEADERS
+HEADER_LIST				=	fdf.h
+HEADERS					=	$(addprefix $(INC_DIR), $(HEADER_LIST))
+
+# mlx library
+MLX_LNK	= -lmlx 
+
+# ft library
+LIBFT_DIRECTORY			= ./libft/
+FT_LIB					= $(LIBFT_DIRECTORY)/libft.a
+FT_INC					= $(LIBFT_DIRECTORY)/includes/
+FT_LNK					= -lft -L ./libft
+
+#INCLUDE && LINK
+INCLUDE					:=	-I $(FT_INC) -I $(INC_DIR)
+LINK					:=	$(MLX_LNK) $(FT_LNK) $(FRAMEWORK)
+
+
+all: $(NAME)
 
 obj:
-	mkdir -p $(OBJDIR)
+	mkdir -p $(OBJ_DIR)
 
-$(OBJDIR)%.o:$(SRCDIR)%.c
-	$(CC) -g $(CFLAGS) $(MLX_INC) $(FT_INC) -I $(INCDIR) -o $@ -c $<
+$(OBJ_DIR)%.o:$(SRC_DIR)%.c $(HEADERS)
+	@printf " \e[1;34m- Compiling  %-21s  ->  %-21s\n\e[m" "$<" "$@"
+	$(CC) $(CFLAGS) $(INCLUDE) -o $@ -c $<
 
-$(FT_LIB):
-	make -C $(FT)
+$(LIBFT):
+	@make -C $(LIBFT_DIRECTORY)
 
-$(MLX_LIB):
-	make -C $(MLX)
-
-$(NAME): $(OBJ)
-	$(CC) -g $(OBJ) $(MLX_LNK) $(FT_LNK) -lm -o $(NAME)
+$(NAME): $(LIBFT) $(OBJ_DIR) $(OBJ)
+	$(CC) $(OBJ) $(LINK) -o $@
 
 clean:
-	rm -rf $(OBJDIR)
+	@echo " - Deleting $(OBJ_DIR)"
+	@rm -rf $(OBJ_DIR)
 	make -C $(FT) clean
-	make -C $(MLX) clean
 
 fclean: clean
-	rm -rf $(NAME)
-	make -C $(FT) fclean
+	@echo " - Deleting $(NAME)"
+	@echo " - Cleaning $(LIBFT_DIRECTORY)"
+	@rm -rf $(NAME)
+	@make -C $(LIBFT_DIRECTORY) fclean
 
 re: fclean all
